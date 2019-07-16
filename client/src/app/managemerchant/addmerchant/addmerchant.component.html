@@ -1,0 +1,49 @@
+<div class="container d-flex flex-column">
+        <h3 class="align-self-center">Add Merchant</h3>
+        <form class="d-flex flex-column" [formGroup]='addMerchantform' (ngSubmit)="submit()" >
+            <div class="align-self-center my-1">
+            <label for="firstName">First Name
+            <input type="text" id="firstName" class="form-control" formControlName='firstName' required>
+            <span *ngIf="!addMerchantform.get('firstName').valid && addMerchantform.get('firstName').touched" class="err-msg">
+                <span *ngIf="addMerchantform.get('firstName').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="lastName">Last Name      
+            <input type="text" id="lastName" class="form-control" formControlName='lastName' required>
+            <span *ngIf="!addMerchantform.get('lastName').valid && addMerchantform.get('lastName').touched" class="err-msg">
+                <span *ngIf="addMerchantform.get('lastName').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="email">Email      
+            <input type="text" id="email" class="form-control" formControlName='email' required>
+            <span *ngIf="!addMerchantform.get('email').valid && addMerchantform.get('email').touched" class="err-msg">
+                <span *ngIf="addMerchantform.get('email').errors['email']">Enter a Valid Email</span>
+                <span *ngIf="addMerchantform.get('email').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="phone">Mobile Number
+            <input type="number" id="phone" class="form-control" formControlName='phone' required>
+            <span *ngIf="!addMerchantform.get('phone').valid && addMerchantform.get('phone').touched" class="err-msg">
+                <span *ngIf="addMerchantform.get('phone').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="dob">Date Of Birth      
+            <input type="date" id='dob' class="form-control" formControlName='dob' required>
+            <span *ngIf="!addMerchantform.get('dob').valid && addMerchantform.get('dob').touched" class="err-msg">
+                <span *ngIf="addMerchantform.get('dob').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="companyName">Company Name
+            <input type="companyName" id="companyName" class="form-control" formControlName='companyName' required>
+            <span *ngIf="!addMerchantform.get('companyName').valid && addMerchantform.get('companyName').touched" class="err-msg">
+                <span *ngIf="addMerchantform.get('companyName').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <button class="btn btn-success align-self-center" [disabled]="!addMerchantform.valid" type="submit">Submit</button>
+        </form>
+      </div>

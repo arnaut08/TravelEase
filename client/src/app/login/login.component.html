@@ -1,0 +1,22 @@
+
+<div class="container d-flex flex-column">
+    <h3 class="align-self-center">Login</h3>
+    <form class="d-flex flex-column" [formGroup]='loginForm' (ngSubmit)="submitLogin(loginForm.value)" >
+        <div class="align-self-center">
+        <label for="email">Email      
+        <input type="text" id="email" class="form-control align-self-center" formControlName='email' required>
+        <span *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched" class="err-msg">
+                <span *ngIf="loginForm.get('email').errors['email']">Enter a Valid Email</span>
+                <span *ngIf="loginForm.get('email').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class="align-self-center">
+        <label for="password">Password
+        <input type="password" id="password" class="form-control align-self-center" formControlName='password' required>
+        <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched" class="err-msg">
+            <span *ngIf="loginForm.get('password').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <button class="btn btn-success align-self-center" routerLink="" [disabled]="!loginForm.valid" type="submit">Login</button>
+    </form>
+</div>

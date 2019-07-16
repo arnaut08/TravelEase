@@ -1,0 +1,20 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let merchant of merchants">
+            <td>{{ merchant.merchantId }}</td>
+            <td>{{ merchant.firstName }}</td>
+            <td>{{ merchant.lastName }}</td>
+            <td><button (click)="edit(merchant.merchantId)" class="btn btn-success btn-sm">Edit</button> <button (click)="delete(merchant.merchantId)" class="btn btn-danger btn-sm">Delete</button></td>
+          </tr>
+        </tbody>
+</table>
+        
+  

@@ -1,0 +1,41 @@
+<div class="container d-flex flex-column">
+        <h3 class="align-self-center">Edit Bus</h3>
+        <form class="d-flex flex-column" [formGroup]='editBusform' (ngSubmit)="submit()" >
+            <div class="align-self-center my-1">
+            <label for="busTitle">Title
+            <input type="text" id="busTitle" class="form-control" formControlName='busTitle' required>
+            <span *ngIf="!editBusform.get('busTitle').valid && editBusform.get('busTitle').touched" class="err-msg">
+                <span *ngIf="editBusform.get('busTitle').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="busDescription">Description      
+            <input type="text" id="busDescription" class="form-control" formControlName='busDescription' required>
+            <span *ngIf="!editBusform.get('busDescription').valid && editBusform.get('busDescription').touched" class="err-msg">
+                <span *ngIf="editBusform.get('busDescription').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="busCategory">Category
+            <select id="busCategory" class="form-control" formControlName='busCategory' required>
+                <option>AC-Sleeper</option>
+                <option>AC-Seater</option>
+                <option>NonAC-Sleeper</option>
+                <option>NonAC-Seater</option>
+            </select>      
+            <!-- <input type="text" id="busCategory" class="form-control" formControlName='busCategory' required> -->
+            <span *ngIf="!editBusform.get('busCategory').valid && editBusform.get('busCategory').touched" class="err-msg">
+                <span *ngIf="editBusform.get('busCategory').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="terms">Terms
+            <textarea id="terms" class="form-control" formControlName='terms' required cols="20" rows="7"></textarea>
+            <!-- <input type="text" id="terms" class="form-control" formControlName='terms' required> -->
+            <span *ngIf="!editBusform.get('terms').valid && editBusform.get('terms').touched" class="err-msg">
+                <span *ngIf="editBusform.get('terms').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <button class="btn btn-success align-self-center" [disabled]="!editBusform.valid" type="submit">Submit</button>
+        </form>
+      </div>

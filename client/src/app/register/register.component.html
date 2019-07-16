@@ -1,0 +1,49 @@
+<div class="container d-flex flex-column">
+    <h3 class="align-self-center">Register</h3>
+    <form class="d-flex flex-column" [formGroup]='regform' (ngSubmit)="display(regform.value)" >
+        <div class="align-self-center my-1">
+        <label for="firstName">First Name
+        <input type="text" id="firstName" class="form-control" formControlName='firstName' required>
+        <span *ngIf="!regform.get('firstName').valid && regform.get('firstName').touched" class="err-msg">
+            <span *ngIf="regform.get('firstName').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="lastName">Last Name      
+        <input type="text" id="lastName" class="form-control" formControlName='lastName' required>
+        <span *ngIf="!regform.get('lastName').valid && regform.get('lastName').touched" class="err-msg">
+            <span *ngIf="regform.get('lastName').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="email">Email      
+        <input type="text" id="email" class="form-control" formControlName='email' required>
+        <span *ngIf="!regform.get('email').valid && regform.get('email').touched" class="err-msg">
+            <span *ngIf="regform.get('email').errors['email']">Enter a Valid Email</span>
+            <span *ngIf="regform.get('email').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="phone">Mobile Number
+        <input type="number" id="phone" class="form-control" formControlName='phone' required>
+        <span *ngIf="!regform.get('phone').valid && regform.get('phone').touched" class="err-msg">
+            <span *ngIf="regform.get('phone').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="dob">Date Of Birth      
+        <input type="date" id='dob' class="form-control" formControlName='dob' required>
+        <span *ngIf="!regform.get('dob').valid && regform.get('dob').touched" class="err-msg">
+            <span *ngIf="regform.get('dob').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="password">Password
+        <input type="password" id="password" class="form-control" formControlName='password' required>
+        <span *ngIf="!regform.get('password').valid && regform.get('password').touched" class="err-msg">
+            <span *ngIf="regform.get('password').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <button class="btn btn-success align-self-center" [disabled]="!regform.valid" type="submit">Submit</button>
+    </form>
+  </div>

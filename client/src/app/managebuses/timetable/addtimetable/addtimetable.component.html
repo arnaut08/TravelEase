@@ -1,0 +1,55 @@
+<div class="container d-flex flex-column">
+        <h3 class="align-self-center">Add Timetable</h3>
+        <form class="d-flex flex-column" [formGroup]='addTimetableform' (ngSubmit)="submit()" >
+            <div class="align-self-center my-1">
+            <label for="source">Source
+            <input type="text" id="source" class="form-control" formControlName='source' required>
+            <span *ngIf="!addTimetableform.get('source').valid && addTimetableform.get('source').touched" class="err-msg">
+                <span *ngIf="addTimetableform.get('source').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="destination">Destination      
+            <input type="text" id="destination" class="form-control" formControlName='destination' required>
+            <span *ngIf="!addTimetableform.get('destination').valid && addTimetableform.get('destination').touched" class="err-msg">
+                <span *ngIf="addTimetableform.get('destination').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="route">Route      
+            <input type="text" id="route" class="form-control" formControlName='route' required>
+            <span *ngIf="!addTimetableform.get('route').valid && addTimetableform.get('route').touched" class="err-msg">
+                <span *ngIf="addTimetableform.get('route').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="date">Date
+            <input type="date" id="date" class="form-control" formControlName='date' required>
+            <span *ngIf="!addTimetableform.get('date').valid && addTimetableform.get('date').touched" class="err-msg">
+                <span *ngIf="addTimetableform.get('date').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="time">Time      
+            <input type="time" id='time' class="form-control" formControlName='time' required>
+            <span *ngIf="!addTimetableform.get('time').valid && addTimetableform.get('time').touched" class="err-msg">
+                <span *ngIf="addTimetableform.get('time').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="capacity">Capacity
+            <input type="number" id="capacity" class="form-control" formControlName='capacity' required>
+            <span *ngIf="!addTimetableform.get('capacity').valid && addTimetableform.get('capacity').touched" class="err-msg">
+                <span *ngIf="addTimetableform.get('capacity').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class=" align-self-center my-1">
+            <label for="price">Price
+            <input type="number" id="price" class="form-control" formControlName='price' required>
+            <span *ngIf="!addTimetableform.get('price').valid && addTimetableform.get('price').touched" class="err-msg">
+                <span *ngIf="addTimetableform.get('price').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <button class="btn btn-success align-self-center" [disabled]="!addTimetableform.valid" type="submit">Submit</button>
+        </form>
+      </div>

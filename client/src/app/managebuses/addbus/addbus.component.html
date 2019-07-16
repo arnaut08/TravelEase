@@ -1,0 +1,39 @@
+<div class="container d-flex flex-column">
+    <h3 class="align-self-center">Add Bus</h3>
+    <form class="d-flex flex-column" [formGroup]='addBusform' (ngSubmit)="submit()" >
+        <div class="align-self-center my-1">
+        <label for="busTitle">Title
+        <input type="text" id="busTitle" class="form-control" formControlName='busTitle' required>
+        <span *ngIf="!addBusform.get('busTitle').valid && addBusform.get('busTitle').touched" class="err-msg">
+            <span *ngIf="addBusform.get('busTitle').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="busDescription">Description      
+        <input type="text" id="busDescription" class="form-control" formControlName='busDescription' required>
+        <span *ngIf="!addBusform.get('busDescription').valid && addBusform.get('busDescription').touched" class="err-msg">
+            <span *ngIf="addBusform.get('busDescription').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="busCategory">Category
+        <select id="busCategory" class="form-control" formControlName='busCategory' required>
+            <option>AC-Sleeper</option>
+            <option>AC-Seater</option>
+            <option>NonAC-Sleeper</option>
+            <option>NonAC-Seater</option>
+        </select>
+        <span *ngIf="!addBusform.get('busCategory').valid && addBusform.get('busCategory').touched" class="err-msg">
+            <span *ngIf="addBusform.get('busCategory').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="terms">Terms
+        <textarea id="terms" class="form-control" formControlName='terms' required cols="20" rows="7"></textarea>
+        <span *ngIf="!addBusform.get('terms').valid && addBusform.get('terms').touched" class="err-msg">
+            <span *ngIf="addBusform.get('terms').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <button class="btn btn-success align-self-center" [disabled]="!addBusform.valid" type="submit">Submit</button>
+    </form>
+  </div>
