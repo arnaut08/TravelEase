@@ -24,6 +24,9 @@
                         <a class="dropdown-item" routerLink="bus/view">View Buses</a>
                     </div>
                 </li>
+                <li *ngIf="role=='user'" class="navbar-item">
+                        <a routerLink="search" class="nav-link">Book</a>
+                </li>
             </ul>
         </div>
     </div>

@@ -18,6 +18,10 @@ import { TimetableComponent } from './managebuses/timetable/timetable.component'
 import { AddtimetableComponent } from './managebuses/timetable/addtimetable/addtimetable.component';
 import { ViewtimetableComponent } from './managebuses/timetable/viewtimetable/viewtimetable.component';
 import { EdittimetableComponent } from './managebuses/timetable/edittimetable/edittimetable.component';
+import { SearchComponent } from './search/search.component';
+import { ResultComponent } from './search/result/result.component';
+import { BookComponent } from './book/book.component';
+import { TravellerComponent } from './book/traveller/traveller.component';
 
 const appRoutes: Routes = [
     { path: '',canActivate:[AuthGuard], component: HomeComponent },
@@ -37,7 +41,14 @@ const appRoutes: Routes = [
         { path: 'view', component: ViewtimetableComponent },
         { path: 'edit/:id', component: EdittimetableComponent }
       ]},
+    ]},
+    { path: 'search', canActivate:[AuthGuard], data : {role:"user"} , component: SearchComponent},
+    { path: 'result', canActivate:[AuthGuard], component: ResultComponent, data : {role:"user"} },
+    { path: 'book', canActivate:[AuthGuard], component: BookComponent, data : {role:"user"}, children:[ 
+    { path: ':id', component: TravellerComponent}
+
     ]}
+
 ];
 
 @NgModule({

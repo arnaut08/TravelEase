@@ -1,0 +1,43 @@
+<div class="container d-flex flex-column">
+    <h3 class="align-self-center">Search</h3>
+    <form class="d-flex flex-column" [formGroup]='searchform' (ngSubmit)="search()" >
+        <div class="align-self-center my-1">
+        <label for="date">Date
+        <input type="date" id="date" class="form-control" formControlName='date' required>
+        <span *ngIf="!searchform.get('date').valid && searchform.get('date').touched" class="err-msg">
+            <span *ngIf="searchform.get('date').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="source">From
+        <select id="source" class="form-control" formControlName='source' required>
+            <option *ngFor="let tt of ttSources" >{{tt.source}}</option>
+        </select>
+        <span *ngIf="!searchform.get('source').valid && searchform.get('source').touched" class="err-msg">
+            <span *ngIf="searchform.get('source').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="destination">To
+        <select id="destination" class="form-control"  formControlName='destination' required>
+            <option *ngFor="let tt of ttDestinations" >{{tt.destination}}</option>
+        </select>
+        <span *ngIf="!searchform.get('destination').valid && searchform.get('destination').touched" class="err-msg">
+            <span *ngIf="searchform.get('destination').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="busCategory">Category
+        <select id="busCategory" class="form-control" formControlName='busCategory' required>
+            <option>AC-Sleeper</option>
+            <option>AC-Seater</option>
+            <option>NonAC-Sleeper</option>
+            <option>NonAC-Seater</option>
+        </select>
+        <span *ngIf="!searchform.get('busCategory').valid && searchform.get('busCategory').touched" class="err-msg">
+            <span *ngIf="searchform.get('busCategory').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <button class="btn btn-success align-self-center" [disabled]="!searchform.valid" type="submit">Search</button>
+    </form>
+</div>

@@ -30,9 +30,9 @@ export class AddtimetableComponent implements OnInit {
   }
 
   submit(){
-    console.log("in submit")
     this.addTimetableform.value.id=this.id;
-    console.log(this.addTimetableform.value)    
+    console.log(this.addTimetableform.value);
+    this.timetableService.addTimetable(this.addTimetableform.value)    
   }
   
 }

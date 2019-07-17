@@ -1,0 +1,35 @@
+<div class="container d-flex flex-column">
+    <h3 class="align-self-center">Search</h3>
+    <form class="d-flex flex-column" [formGroup]='travellerform' (ngSubmit)="search()" >
+        <button *ngIf="count!=4" (click)="counter()" class="btn btn-success btn-sm">Add Traveller</button>
+        <div class="align-self-center my-1">
+        <label for="traveller1">Traveller 1 Name
+        <input type="traveller1" id="traveller1" class="form-control" formControlName='traveller1' required>
+        <span *ngIf="!travellerform.get('traveller1').valid && travellerform.get('traveller1').touched" class="err-msg">
+            <span *ngIf="travellerform.get('traveller1').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div *ngIf="count>=2" class="align-self-center my-1">
+            <label for="traveller2">Traveller 2 Name
+            <input type="traveller2" id="traveller2" class="form-control" formControlName='traveller2' required>
+            <span *ngIf="!travellerform.get('traveller2').valid && travellerform.get('traveller2').touched" class="err-msg">
+                <span *ngIf="travellerform.get('traveller2').errors['required']">This field is required!</span>        
+            </span></label>
+        </div>
+        <div *ngIf="count>=3" class="align-self-center my-1">
+            <label for="traveller3">Traveller 3 Name
+            <input type="traveller3" id="traveller3" class="form-control" formControlName='traveller3' required>
+            <span *ngIf="!travellerform.get('traveller3').valid && travellerform.get('traveller3').touched" class="err-msg">
+                <span *ngIf="travellerform.get('traveller3').errors['required']">This field is required!</span>        
+            </span></label>
+        </div>
+        <div *ngIf="count>=4" class="align-self-center my-1">
+            <label for="traveller4">Traveller 4 Name
+            <input type="traveller4" id="traveller4" class="form-control" formControlName='traveller4' required>
+            <span *ngIf="!travellerform.get('traveller4').valid && travellerform.get('traveller4').touched" class="err-msg">
+                <span *ngIf="travellerform.get('traveller4').errors['required']">This field is required!</span>        
+            </span></label>
+        </div>
+        <button class="btn btn-success align-self-center" [disabled]="!travellerform.valid" type="submit">Search</button>
+    </form>
+</div>

@@ -24,6 +24,10 @@ import { TimetableComponent } from './managebuses/timetable/timetable.component'
 import { AddtimetableComponent } from './managebuses/timetable/addtimetable/addtimetable.component';
 import { ViewtimetableComponent } from './managebuses/timetable/viewtimetable/viewtimetable.component';
 import { EdittimetableComponent } from './managebuses/timetable/edittimetable/edittimetable.component';
+import { SearchComponent } from './search/search.component';
+import { ResultComponent } from './search/result/result.component';
+import { BookComponent } from './book/book.component';
+import { TravellerComponent } from './book/traveller/traveller.component';
 
 
 @NgModule({
@@ -44,7 +48,11 @@ import { EdittimetableComponent } from './managebuses/timetable/edittimetable/ed
     TimetableComponent,
     AddtimetableComponent,
     ViewtimetableComponent,
-    EdittimetableComponent
+    EdittimetableComponent,
+    SearchComponent,
+    ResultComponent,
+    BookComponent,
+    TravellerComponent
   ],
   imports: [
     BrowserModule,

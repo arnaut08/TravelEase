@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MerchantService } from 'src/app/merchant.service';
 import { Router } from '@angular/router';
 import { BusService } from 'src/app/bus.service';
 
@@ -40,7 +39,7 @@ export class ViewbusesComponent implements OnInit, OnDestroy {
   }
 
   viewTimetable(id){
-
+    this.router.navigate(['bus/'+id+"/timetable/view"])
   }
 
   ngOnDestroy(){

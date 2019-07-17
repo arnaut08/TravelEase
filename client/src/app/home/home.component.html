@@ -1,3 +1,9 @@
-<h2 *ngIf="role=='admin'">Admin</h2>
-<h2 *ngIf="role=='user'">User</h2>
-<h2 *ngIf="role=='merchant'">Merchant</h2>
+<div class="container">
+    <div class="jumbotron">
+        <div class="d-flex justify-content-center">
+            <h2 *ngIf="role=='admin'">Welcome, Admin</h2>
+            <h2 *ngIf="role=='user'">Welcome, User</h2>       
+            <h2 *ngIf="role=='merchant'">Welcome, Merchant</h2>
+        </div>
+    </div>
+</div>

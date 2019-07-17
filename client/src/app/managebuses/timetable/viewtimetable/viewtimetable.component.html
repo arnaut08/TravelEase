@@ -1,1 +1,28 @@
-<p>viewtimetable works!</p>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+    <thead>
+      <tr>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Route</th>            
+        <th>Date</th>
+        <th>Time</th>
+        <th>Capacity</th>
+        <th>Price</th>
+        <th>Bus</th>
+        <th>Actions</th>        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tt of timetables">
+        <td>{{ tt.source }}</td>
+        <td>{{ tt.destination }}</td>
+        <td>{{ tt.route }}</td>
+        <td>{{ tt.date | date }}</td>
+        <td>{{ tt.time }}</td>
+        <td>{{ tt.capacity }}</td>
+        <td>{{ tt.price }}</td>
+        <td>{{ tt.busTitle }}</td>
+        <td><button (click)="edit(tt.tId)" class="btn btn-success btn-sm">Edit</button> <button (click)="delete(tt.tId)" class="btn btn-danger btn-sm">Delete</button></td>
+      </tr>
+    </tbody>
+</table>

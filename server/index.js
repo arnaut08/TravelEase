@@ -137,6 +137,27 @@ const getBuses=()=>{
 }
 
 
+const getSource=()=>{
+    return new Promise((resolve, reject) => {
+        sql= `SELECT DISTINCT(source) FROM Timetable;` 
+            con.query(sql,(err,result)=>{
+                if(err) throw err;
+                resolve(result);
+            })
+        });
+}
+
+const getDestination=()=>{
+    return new Promise((resolve, reject) => {
+        sql= `SELECT DISTINCT(destination) FROM Timetable;` 
+            con.query(sql,(err,result)=>{
+                if(err) throw err;
+                resolve(result);
+            })
+        });
+}
+
+
 
 // User Registration 
 app.post("/signup",async (req,res)=>{
@@ -154,8 +175,11 @@ app.post("/login",(req,res)=>{
     const sql=`SELECT * FROM Auth LEFT JOIN Users ON authId=user_auth WHERE email='${email}';`
 
     con.query(sql,(err,result)=>{
+        console.log(result)
         if(err){
             res.send({"error":err})
+        }else if(result.length==0){
+            res.send({"error":"Email Doesn't exist"})
         }else{
         bcrypt.compare(password,result[0].password).then(authenticated=>{
             if(authenticated){
@@ -287,6 +311,104 @@ app.put("/bus/:id",(req,res)=>{
             res.send({"msg":"Error occurred"})
         }
         res.send({"msg":"Updated"})
+    })
+})
+
+// To add a Timetable
+app.post("/timetable/add",async(req,res)=>{
+    const {source,destination,route,date,time,capacity,price,id} = req.body;
+    const sql=`INSERT INTO Timetable(source, destination, route, date, time, capacity, price, bus)
+    VALUES  ('${source}','${destination}','${route}','${date}','${time}',${capacity},${price},${id});`
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"Error Occurred"})
+        }
+        res.send({"msg":"Timetable added"})
+    })  
+})
+
+// To get timetable details of a particular bus
+app.get("/:id/timetable",async(req,res)=>{
+    const id = req.params.id
+    sql= `SELECT * FROM Timetable LEFT JOIN Buses ON bus=busId WHERE busId=${id};` 
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"Error occurred"})
+        };
+        if(result.length==0){
+            res.send({"msg":"Current bus has no timetables"});
+        }
+        res.send(result);
+    })
+});
+
+// To get a particular timetable
+app.get("/timetable/:id",(req,res)=>{
+    const id = req.params.id;
+    const sql = `SELECT * FROM Timetable WHERE tId=${id}`
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"error occurred"})
+        }
+        res.send(result[0])
+    })
+})
+
+// To edit a timetable
+app.put("/timetable/:id",(req,res)=>{
+    const id=req.params.id;
+    const {source,destination,route,date,time,capacity,price} = req.body;
+    const sql=`UPDATE Timetable SET source='${source}', destination='${destination}',
+    route='${route}', date='${date.substring(0,10)}', time='${time}', capacity=${capacity}, price=${price}
+    WHERE tId=${id};`
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"Error occurred"})
+        }
+        res.send({"msg":"Updated"})
+    })
+})
+
+// To delete a timetable
+app.delete("/timetable/:id",(req,res)=>{
+    const id=req.params.id;
+    const sql=`DELETE FROM Timetable WHERE tId=${id};`
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"Error occurred"})
+        }
+        res.send({"msg":"Timetable Deleted"})
+    })
+})
+
+// To get all the timetables
+app.get("/timetable",(req,res)=>{
+    con.query("SELECT * FROM Timetable LEFT JOIN Buses ON bus=busID;",(err,result)=>{
+        if(err){
+            res.send({"msg":"Error Occurred"})
+        }
+        res.send(result)
+    })
+})
+
+// To get distinct source and destination
+app.get("/distinct",async(req,res)=>{
+    const source = await getSource();
+    const destination = await getDestination();
+    res.send({"source":source,"destination":destination})
+})
+
+// To get buses as per the user's search params
+app.get("/search",(req,res)=>{
+    const {source,destination,date,category}=req.query;
+    const sql= `SELECT * FROM Timetable LEFT JOIN Buses ON bus=busID LEFT JOIN Merchants ON
+    merchantId=company WHERE source='${source}' AND destination='${destination}' AND date='${date}'
+    AND busCategory='${category}';`
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"Error Occurred"})
+        }
+        res.send(result)
     })
 })
 

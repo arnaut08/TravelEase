@@ -1,0 +1,24 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Price</th>
+            <th>Bus</th>
+            <th>Route</th>            
+            <th>Company</th>
+            <th>Terms</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bus of searchedBuses">
+            <td>{{ bus.time.substring(0,5)}}</td>
+            <td>{{ bus.price }}</td>
+            <td>{{ bus.busTitle }}</td>
+            <td>{{ bus.route }}</td>
+            <td>{{ bus.companyName }}</td>
+            <td>{{ bus.terms }}</td>            
+            <td><button (click)="book(bus.tId)" class="btn btn-success btn-sm">Book</button></td>            
+          </tr>
+        </tbody>
+</table>
