@@ -28,6 +28,7 @@ import { SearchComponent } from './search/search.component';
 import { ResultComponent } from './search/result/result.component';
 import { BookComponent } from './book/book.component';
 import { TravellerComponent } from './book/traveller/traveller.component';
+import { PaymentComponent } from './book/payment/payment.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { TravellerComponent } from './book/traveller/traveller.component';
     SearchComponent,
     ResultComponent,
     BookComponent,
-    TravellerComponent
+    TravellerComponent,
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,

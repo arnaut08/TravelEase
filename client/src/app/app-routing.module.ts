@@ -22,6 +22,7 @@ import { SearchComponent } from './search/search.component';
 import { ResultComponent } from './search/result/result.component';
 import { BookComponent } from './book/book.component';
 import { TravellerComponent } from './book/traveller/traveller.component';
+import { PaymentComponent } from './book/payment/payment.component';
 
 const appRoutes: Routes = [
     { path: '',canActivate:[AuthGuard], component: HomeComponent },
@@ -45,8 +46,8 @@ const appRoutes: Routes = [
     { path: 'search', canActivate:[AuthGuard], data : {role:"user"} , component: SearchComponent},
     { path: 'result', canActivate:[AuthGuard], component: ResultComponent, data : {role:"user"} },
     { path: 'book', canActivate:[AuthGuard], component: BookComponent, data : {role:"user"}, children:[ 
-    { path: ':id', component: TravellerComponent}
-
+      { path: ':id', component: TravellerComponent},
+      { path: ':id/payment', component: PaymentComponent}      
     ]}
 
 ];
