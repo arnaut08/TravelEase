@@ -34,7 +34,6 @@
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/bootstrap/dist/js/popper.min.js"
-
             ] 
           },
           "configurations": {

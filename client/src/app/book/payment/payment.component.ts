@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-payment',
@@ -10,11 +6,13 @@ import {
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit{
-
+  private key = "pk_test_AlrZ9BcgCFWr3yl6YNfhUoEc00sRf0ZigF"
   constructor() { }
   
   ngOnInit(){
-
+    
   }
+
+  
 
 }

@@ -10,11 +10,10 @@
 </head>
 <body>
   <app-root></app-root>
-
-  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://checkout.stripe.com/checkout.js"></script>
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
   <script type="text/javascript">
-    var stripe = Stripe('pk_test_AlrZ9BcgCFWr3yl6YNfhUoEc00sRf0ZigF');
-    var elements = stripe.elements();
+    Stripe.setPublishableKey('pk_test_AlrZ9BcgCFWr3yl6YNfhUoEc00sRf0ZigF');
   </script>
 </body>
 </html>

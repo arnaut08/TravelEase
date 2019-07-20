@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingService {
   
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  getPrice(id){
+    return this.http.get("http://localhost:3000/timetable/"+id+"/price")
+  }
+
+  
 }

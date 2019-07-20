@@ -62,7 +62,7 @@ import { PaymentComponent } from './book/payment/payment.component';
     ReactiveFormsModule,
     AppRoutingModule,
     FormsModule,
-    DataTablesModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
