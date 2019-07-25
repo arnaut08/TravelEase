@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 22, 2019 at 04:00 PM
+-- Generation Time: Jul 25, 2019 at 07:51 AM
 -- Server version: 10.3.15-MariaDB
 -- PHP Version: 7.3.6
 
@@ -31,24 +31,23 @@ SET time_zone = "+00:00";
 CREATE TABLE `Auth` (
   `authId` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Auth`
 --
 
-INSERT INTO `Auth` (`authId`, `email`, `password`, `token`) VALUES
-(1, 'try@try.com', '$2b$10$QxVbT1w2LbhAXxWOAWPozewg2kOAS0j2/DVlTNcfA7DnUqaK5SRSi', 'anotherrandom'),
-(2, 'archit@random.com', '$2b$10$4WB3e/k.jyuWkZlsKhzRnuP38C.TjEZu5xWnpdp1xxm/OX18JGTz6', 'anotherrandom'),
-(3, 'qwe@qwe', '$2b$10$rxOpDHUJD64SCERi9FU5t.C9OguTCt.D8YSO0V2rN2FkBuzSTWVNq', 'anotherrandom'),
-(4, 'user@abc.com', '$2b$10$o3YH1sUXiEz9ZUoGYde9Euj6ScWtKJ3eZRU4LDTZllnPlkcGG3n.6', 'anotherrandom'),
-(10, 'wrejh@ewkrj', '$2b$10$me/4VaHBbeiPfX2YPf6T2ufkaY0JhVQ.uqRDsyoQhLESLY0C9yt0.', 'anotherrandom'),
-(11, 'jimitraval@yahoo.com', '$2b$10$AC7R/QUE3g7k40.3gnlUN.IJd0GmhIxS2/5zZFFzco0wiJGPz2lX6', 'anotherrandom'),
-(17, 'jm@example.com', '$2b$10$lsSFF4fR2WoMgkjK4zGakOptP0FtyNoGxBAJJ5fkDqEhbvmPkw/qm', 'anotherrandom'),
-(18, 'qwe@qweqwe', '$2b$10$kVj9Baf2XIy6ONUP7May/u74aIef3K2.XyWf70G6zxewxwyqq0AZ.', 'anotherrandom'),
-(19, 'qweasd@asd', '$2b$10$LAJwkl8a6swZ3nWdSRhxw.o.jLYdrQRBnC8g2aoZogrZFmm/XNlom', 'anotherrandom');
+INSERT INTO `Auth` (`authId`, `email`, `password`) VALUES
+(1, 'try@try.com', '$2b$10$QxVbT1w2LbhAXxWOAWPozewg2kOAS0j2/DVlTNcfA7DnUqaK5SRSi'),
+(2, 'archit@random.com', '$2b$10$4WB3e/k.jyuWkZlsKhzRnuP38C.TjEZu5xWnpdp1xxm/OX18JGTz6'),
+(3, 'qwe@qwe', '$2b$10$rxOpDHUJD64SCERi9FU5t.C9OguTCt.D8YSO0V2rN2FkBuzSTWVNq'),
+(4, 'user@abc.com', '$2b$10$o3YH1sUXiEz9ZUoGYde9Euj6ScWtKJ3eZRU4LDTZllnPlkcGG3n.6'),
+(10, 'wrejh@ewkrj', '$2b$10$me/4VaHBbeiPfX2YPf6T2ufkaY0JhVQ.uqRDsyoQhLESLY0C9yt0.'),
+(11, 'jimitraval@yahoo.com', '$2b$10$AC7R/QUE3g7k40.3gnlUN.IJd0GmhIxS2/5zZFFzco0wiJGPz2lX6'),
+(17, 'jm@example.com', '$2b$10$lsSFF4fR2WoMgkjK4zGakOptP0FtyNoGxBAJJ5fkDqEhbvmPkw/qm'),
+(18, 'qwe@qweqwe', '$2b$10$kVj9Baf2XIy6ONUP7May/u74aIef3K2.XyWf70G6zxewxwyqq0AZ.'),
+(19, 'qweasd@asd', '$2b$10$LAJwkl8a6swZ3nWdSRhxw.o.jLYdrQRBnC8g2aoZogrZFmm/XNlom');
 
 -- --------------------------------------------------------
 
@@ -63,6 +62,15 @@ CREATE TABLE `Bookings` (
   `bookedBus` int(11) NOT NULL,
   `payment` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Bookings`
+--
+
+INSERT INTO `Bookings` (`bookingId`, `bookedBy`, `travellerName`, `bookedBus`, `payment`) VALUES
+(1, 4, 'random guy', 2, 9),
+(2, 4, 'another random guy', 2, 9),
+(3, 4, 'random girl', 2, 9);
 
 -- --------------------------------------------------------
 
@@ -129,7 +137,12 @@ INSERT INTO `Payment` (`payId`, `transactionId`, `amount`, `receipt`) VALUES
 (1, 'txn_1Exvm3I1f9Sk0G9IBX0uIB2j', 402, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1Exvm3I1f9Sk0G9IufD4A9k0/rcpt_FSrVNX2jjPTaj3qYWWkFgW2GxPhSytU'),
 (2, 'txn_1ExvnnI1f9Sk0G9IqQMYZ2JK', 268, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1ExvnnI1f9Sk0G9I7tmSgDio/rcpt_FSrWVrmYWMThHyyzr7Qb8L4DtF24pEL'),
 (3, 'txn_1ExvrNI1f9Sk0G9IHzKk0BZz', 268, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1ExvrMI1f9Sk0G9I7ZvY3JsL/rcpt_FSra2H86l1vRsMwlpTuOBmgqPj3lqOH'),
-(4, 'txn_1ExwQKI1f9Sk0G9IBXFyme9f', 402, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1ExwQKI1f9Sk0G9Ika3CZxTY/rcpt_FSsAtPhkvXPQ8AXKALw34DscCy9fvIh');
+(4, 'txn_1ExwQKI1f9Sk0G9IBXFyme9f', 402, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1ExwQKI1f9Sk0G9Ika3CZxTY/rcpt_FSsAtPhkvXPQ8AXKALw34DscCy9fvIh'),
+(5, 'txn_1EzzABI1f9Sk0G9IbT4Ypzue', 268, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1EzzABI1f9Sk0G9ICPbdtNvI/rcpt_FUz8BPYeamLtDENc7sgYoUPaY3NcUG3'),
+(6, 'txn_1EzzVJI1f9Sk0G9IUZZncrfr', 268, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1EzzVJI1f9Sk0G9I5l2qAEtd/rcpt_FUzUXgoyfDWGQ2TjjA2ExB9w1Eznq8o'),
+(7, 'txn_1EzzYDI1f9Sk0G9Igwar6bLi', 268, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1EzzYDI1f9Sk0G9ICkRsDmLF/rcpt_FUzX5eBcoeS6gxft8UZHTB7n0EO0R2w'),
+(8, 'txn_1EzzZYI1f9Sk0G9IJX1XjzRa', 268, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1EzzZYI1f9Sk0G9ISoeZdPmB/rcpt_FUzYhy3XwhKwzeu4O7Go6DeczZTf3L0'),
+(9, 'txn_1EzzauI1f9Sk0G9ILyZOi6hJ', 402, 'https://pay.stripe.com/receipts/acct_1ExYJEI1f9Sk0G9I/ch_1EzzauI1f9Sk0G9IF1kBaNta/rcpt_FUza95sbBBNcHDqSx6o1MFJCSTGYEmP');
 
 -- --------------------------------------------------------
 
@@ -255,7 +268,7 @@ ALTER TABLE `Auth`
 -- AUTO_INCREMENT for table `Bookings`
 --
 ALTER TABLE `Bookings`
-  MODIFY `bookingId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bookingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Buses`
@@ -273,7 +286,7 @@ ALTER TABLE `Merchants`
 -- AUTO_INCREMENT for table `Payment`
 --
 ALTER TABLE `Payment`
-  MODIFY `payId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `payId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `Timetable`

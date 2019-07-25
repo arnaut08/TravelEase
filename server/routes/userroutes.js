@@ -33,6 +33,17 @@ const payment=(receipt,transId,amount)=>{
     });
 }
 
+
+const getId=(email)=>{
+    return new Promise((resolve, reject) => {
+        sql= `SELECT userId FROM Users LEFT JOIN Auth ON user_auth=authId WHERE email='${email}';` 
+        con.query(sql,(err,result)=>{
+            if(err) throw err;
+            resolve(result[0].userId);
+        })
+    });
+}
+
 // To get all the timetables
 router.get("/timetable",(req,res)=>{
     con.query("SELECT * FROM Timetable LEFT JOIN Buses ON bus=busID;",(err,result)=>{
@@ -103,14 +114,18 @@ router.post("/payment",(req,res)=>{
 
 
 // To insert booking records
-router.post("/book",(req,res)=>{
-    const {count} = req.body;
-    const keys=Object.keys(req.body)
-    console.log(req.body);
-    console.log(keys);
-    // for(let i=1; i < count+1,i++){
-    //     const {}
-    // }
+router.post("/book",async (req,res)=>{
+    const {values, bookedBus, email, payment} = req.body;
+    const bookedBy = await getId(email);
+    for(let traveller of values){
+        const sql = `INSERT INTO Bookings(bookedBy, travellerName, bookedBus, payment) VALUES (${bookedBy},'${traveller}',${bookedBus},${payment})`
+        con.query(sql,(err,result)=>{
+            if(err){
+                res.send({"msg":"error"})
+            }
+        })
+    }
+    res.send({"msg":"success"})
 })
 
 
