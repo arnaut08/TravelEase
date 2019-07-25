@@ -75,7 +75,6 @@ export class TravellerComponent implements OnInit{
   }
   
   pay(){
-
     const count=this.travellers.length;
     const bookedBus=this.id;
     const email = this.authService.user.value.email;

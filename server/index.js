@@ -1,8 +1,7 @@
 const express=require("express"),
 app=express(),
 parser=require("body-parser"),
-override=require("method-override"),
-con=require('./common/database');
+override=require("method-override");
 
 
 const authRoutes = require('./routes/authroutes'),

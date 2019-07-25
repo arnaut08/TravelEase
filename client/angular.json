@@ -30,10 +30,10 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/bootstrap/dist/js/jquery-3.2.1.slim.min.js",
+              "js/jquery-3.2.1.slim.min.js",
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/bootstrap/dist/js/popper.min.js"
+              "js/popper.min.js"
             ] 
           },
           "configurations": {

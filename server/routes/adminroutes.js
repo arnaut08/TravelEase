@@ -114,4 +114,17 @@ router.delete("/merchant/:id",(req,res)=>{
     })
 })
 
+// To get a merchant's customers' details
+router.get("/merchant/:id/customers",(req,res)=>{
+    const id = req.params.id;
+    const sql = `SELECT * FROM Bookings LEFT JOIN Travellers ON booking=bookingId LEFT JOIN Timetable ON bookedBus = tId 
+    LEFT JOIN Buses ON bus = busId LEFT JOIN Users ON bookedBy = userId WHERE company = ${id}`
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"error occurred"})
+        }
+        res.send(result)    
+    })
+})
+
 module.exports = router;

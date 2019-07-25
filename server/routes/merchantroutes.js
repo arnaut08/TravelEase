@@ -86,8 +86,8 @@ router.put("/bus/:id",(req,res)=>{
 // To add a Timetable
 router.post("/timetable/add",async(req,res)=>{
     const {source,destination,route,date,time,capacity,price,id} = req.body;
-    const sql=`INSERT INTO Timetable(source, destination, route, date, time, capacity, price, bus)
-    VALUES  ('${source}','${destination}','${route}','${date}','${time}',${capacity},${price},${id});`
+    const sql=`INSERT INTO Timetable(source, destination, route, date, time, capacity, available, price, bus)
+    VALUES  ('${source}','${destination}','${route}','${date}','${time}',${capacity},${capacity},${price},${id});`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error Occurred"})
@@ -149,5 +149,23 @@ router.delete("/timetable/:id",(req,res)=>{
         res.send({"msg":"Timetable Deleted"})
     })
 })
+
+
+// To get all customers of a particular
+router.get("/customers",(req,res)=>{
+    const {email} = req.query;
+    console.log(email);
+    const sql = `SELECT * FROM Bookings LEFT JOIN Travellers ON booking=bookingId LEFT JOIN Timetable ON bookedBus = tId LEFT JOIN Buses 
+    ON bus = busId LEFT JOIN Users ON bookedBy = userId LEFT JOIN Auth on user_auth = authId WHERE company=( SELECT merchantId FROM Merchants 
+    LEFT JOIN Users ON owner = userId LEFT JOIN Auth on user_auth = authId WHERE email ='${email}')`;
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"error occurred"})
+        }
+        console.log(result)
+        res.send(result)
+    })
+})
+
 
 module.exports = router;

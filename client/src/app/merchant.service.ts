@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MerchantService {
-  
-  constructor(private http:HttpClient,private router:Router) { }
+  customers:Observable<any>;
+  constructor(private http:HttpClient,private router:Router, private authService: AuthService) { }
 
   addMerchant(addMerchantForm){
     this.http.post("http://localhost:3000/merchant/add",addMerchantForm).subscribe(response=>{
@@ -31,10 +33,17 @@ export class MerchantService {
   }
 
   deleteMerchant(id){
-    console.log(id)
     this.http.delete("http://localhost:3000/merchant/"+id).subscribe(response=>{
       console.log(response);
       this.router.navigate(['']);
     })  
+  }
+
+  getCustomers(id){
+    return this.http.get("http://localhost:3000/merchant/"+id+"/customers");
+  }
+
+  getAllcustomers(){
+    return this.http.get(`http://localhost:3000/customers?email=${this.authService.user.value.email}`)
   }
 }

@@ -35,6 +35,10 @@ export class ViewmerchantComponent implements OnInit, OnDestroy {
     this.merchantService.deleteMerchant(id);
   }
 
+  viewCustomers(id){
+    this.router.navigate(['merchant/'+id+'/customers'])
+  }
+
   ngOnDestroy(){
     this.dtTrigger.unsubscribe();
   }

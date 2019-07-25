@@ -1,0 +1,22 @@
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+    <thead>
+      <tr>
+        <th>Traveller</th>
+        <th>Bus</th>
+        <th>Date</th>            
+        <th>Time</th>
+        <th>Source</th>
+        <th>Destination</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers">
+        <td>{{ customer.travellerName }}</td>
+        <td>{{ customer.busTitle }}</td>
+        <td>{{ customer.date | date }}</td>
+        <td>{{ customer.time }}</td>
+        <td>{{ customer.source }}</td>
+        <td>{{ customer.destination }}</td>
+      </tr>
+    </tbody>
+</table>

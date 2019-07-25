@@ -29,7 +29,11 @@ import { ResultComponent } from './search/result/result.component';
 import { BookComponent } from './book/book.component';
 import { TravellerComponent } from './book/traveller/traveller.component';
 import { PaymentComponent } from './book/payment/payment.component';
-
+import { CustomersComponent } from './managemerchant/customers/customers.component';
+import { CustomersComponent as AllCustomers } from './customers/customers.component';
+import { TicketsComponent } from './tickets/tickets.component';
+import { PastComponent } from './tickets/past/past.component';
+import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +59,11 @@ import { PaymentComponent } from './book/payment/payment.component';
     BookComponent,
     TravellerComponent,
     PaymentComponent,
+    CustomersComponent,
+    AllCustomers,
+    TicketsComponent,
+    PastComponent,
+    UpcomingComponent
   ],
   imports: [
     BrowserModule,

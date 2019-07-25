@@ -23,6 +23,11 @@ import { ResultComponent } from './search/result/result.component';
 import { BookComponent } from './book/book.component';
 import { TravellerComponent } from './book/traveller/traveller.component';
 import { PaymentComponent } from './book/payment/payment.component';
+import { CustomersComponent } from './managemerchant/customers/customers.component';
+import { CustomersComponent as AllCustomers } from './customers/customers.component'
+import { TicketsComponent } from './tickets/tickets.component';
+import { PastComponent } from './tickets/past/past.component';
+import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
 
 const appRoutes: Routes = [
     { path: '',canActivate:[AuthGuard], component: HomeComponent },
@@ -31,7 +36,8 @@ const appRoutes: Routes = [
     { path: 'merchant',canActivate:[AuthGuard], data : {role:"admin"} , component: ManagemerchantComponent, children:[
       { path: 'add', component: AddmerchantComponent },
       { path: 'view', component: ViewmerchantComponent },
-      { path: 'edit/:id', component: EditmerchantComponent }
+      { path: 'edit/:id', component: EditmerchantComponent },
+      { path: ':id/customers', component: CustomersComponent }
     ]},
     { path: 'bus',canActivate:[AuthGuard], data : {role:"merchant"} , component: ManagebusesComponent, children:[
       { path: 'add', component: AddbusComponent },
@@ -48,8 +54,12 @@ const appRoutes: Routes = [
     { path: 'book', canActivate:[AuthGuard], component: BookComponent, data : {role:"user"}, children:[ 
       { path: ':id', component: TravellerComponent},
       { path: ':id/payment', component: PaymentComponent}      
+    ]},
+    { path: 'customers', canActivate:[AuthGuard], component: AllCustomers , data : {role:"merchant"} },
+    { path: 'tickets', canActivate:[AuthGuard], component: TicketsComponent, data : {role:"user"}, children:[ 
+      { path: 'past', component: PastComponent},
+      { path: 'upcoming', component: UpcomingComponent}      
     ]}
-
 ];
 
 @NgModule({
