@@ -10,8 +10,8 @@ export class TimetableService {
   constructor(private http: HttpClient, private router: Router) { }
 
   addTimetable(addTimetableform){
-    this.http.post("http://localhost:3000/timetable/add",addTimetableform).subscribe(response=>{
-      console.log(response);
+    this.http.post("http://localhost:3000/timetable/add",addTimetableform).subscribe(res=>{
+      alert(res['msg']);
       this.router.navigate(['bus/view'])
     })
   }
@@ -29,15 +29,15 @@ export class TimetableService {
   }
 
   updateTimetable(id,editTimetableform){
-    this.http.put("http://localhost:3000/timetable/"+id,editTimetableform).subscribe(response=>{
-      console.log(response);
+    this.http.put("http://localhost:3000/timetable/"+id,editTimetableform).subscribe(res=>{
+      alert(res['msg']);
       this.router.navigate(['bus/view']);
     })
   }
 
   deleteTimetable(id){
-    this.http.delete("http://localhost:3000/timetable/"+id).subscribe(response=>{
-      console.log(response);
+    this.http.delete("http://localhost:3000/timetable/"+id).subscribe(res=>{
+      alert(res['msg']);      
       this.router.navigate(['bus/view']);
     })  
   }

@@ -10,11 +10,12 @@ const {createAuth, createUserDetails, hashpw} = require('../common/functions')
 // User Registration 
 router.post("/signup",async (req,res)=>{
     const user = req.body;
+    const {email} = user;
     const {password}=user;
     const hashedpw = await hashpw(password);
     const authId = await createAuth(user,hashedpw);
     const userDetailId = await createUserDetails(user, authId);
-    res.send({"message":"Signed up"})
+    res.send({"msg":"Signed up"})
 });
 
 // Common Login
@@ -32,9 +33,9 @@ router.post("/login",(req,res)=>{
             if(authenticated){
                 const payload={user:email};
                 const options={expiresIn:3600000};
-                const secret="gloryglorymanchesterunited"
+                const secret="gloryglorymanchesterunited";
                 const token= jwt.sign(payload,secret,options);
-                res.send({"token":token,expiry:options.expiresIn,"msg":"Success","role":result[0].role})
+                res.send({"token":token,expiry:options.expiresIn,"msg":"Logged In","role":result[0].role});
             } else {
                 res.send({"msg":"Error"})  
             }

@@ -26,6 +26,7 @@ export class RegisterComponent implements OnInit {
 
   display(regForm){
     this.authService.register(regForm).subscribe(res=>{
+      alert(res["msg"])
       this.router.navigate(['login'])
     })
   }

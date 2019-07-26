@@ -1,6 +1,7 @@
 const express = require("express"),
 router = express.Router(),
 nodemailer=require("nodemailer"),
+auth = require("../middleware/authentication"),
 con=require('../common/database');
 
 const {createAuth, createUserDetails, hashpw} = require('../common/functions')
@@ -56,7 +57,7 @@ const sendPassword=(email,password)=>{
 
 
 // To add Merchants
-router.post("/merchant/add",async (req,res)=>{
+router.post("/merchant/add",auth,async (req,res)=>{
     const user = req.body;
     const {password,email}=user;
     const hashedpw = await hashpw(password);
@@ -64,30 +65,30 @@ router.post("/merchant/add",async (req,res)=>{
     const userDetailId = await createUserDetails(user, authId, "merchant");
     const merchantId= await createMerchant(user,userDetailId);
     sendPassword(email,password);
-    res.send({"msg":"merchant added"}) 
+    res.send({"msg":"Merchant Added"}) 
 })
 
 // To fetch merchant details
-router.get("/merchant",async(req,res)=>{
+router.get("/merchant",auth,async(req,res)=>{
     const allMerchants= await getMerchants();
     res.send(allMerchants)
 })
 
 
 // To fetch particular merchant's details
-router.get("/merchant/:id",(req,res)=>{
+router.get("/merchant/:id",auth,(req,res)=>{
     const id = req.params.id;
     const sql = `SELECT * FROM Merchants LEFT JOIN Users ON owner = userId LEFT JOIN Auth ON authId = user_auth WHERE merchantId=${id}`
     con.query(sql, (err, result) => {
         if(err){
-            res.send({"msg":"error occurred"})
+            res.send({"msg":"Error occurred"})
         }
         res.send(result[0])
     })
 })
 
 // To edit merchant's details
-router.put("/merchant/:id",(req,res)=>{
+router.put("/merchant/:id",auth,(req,res)=>{
     const id=req.params.id;
     const {firstName,dob,lastName,phone,companyName,email}=req.body;
     const sql=`UPDATE Merchants LEFT JOIN Users ON owner=userId LEFT JOIN Auth ON authId=user_auth
@@ -102,7 +103,7 @@ router.put("/merchant/:id",(req,res)=>{
 })
 
 // To delete a merchant
-router.delete("/merchant/:id",(req,res)=>{
+router.delete("/merchant/:id",auth,(req,res)=>{
     const id=req.params.id;
     const sql=`DELETE FROM Auth WHERE authId=(SELECT authId FROM Merchants LEFT JOIN 
         Users ON owner=userId LEFT JOIN Auth ON authId=user_auth WHERE merchantId=${id});`
@@ -115,13 +116,13 @@ router.delete("/merchant/:id",(req,res)=>{
 })
 
 // To get a merchant's customers' details
-router.get("/merchant/:id/customers",(req,res)=>{
+router.get("/merchant/:id/customers",auth,(req,res)=>{
     const id = req.params.id;
     const sql = `SELECT * FROM Bookings LEFT JOIN Travellers ON booking=bookingId LEFT JOIN Timetable ON bookedBus = tId 
     LEFT JOIN Buses ON bus = busId LEFT JOIN Users ON bookedBy = userId WHERE company = ${id}`
     con.query(sql,(err,result)=>{
         if(err){
-            res.send({"msg":"error occurred"})
+            res.send({"msg":"Error occurred"})
         }
         res.send(result)    
     })

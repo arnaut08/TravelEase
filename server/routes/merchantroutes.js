@@ -1,5 +1,6 @@
 const express = require("express"),
 router = express.Router(),
+auth = require("../middleware/authentication"),
 con=require('../common/database');
 
 
@@ -25,7 +26,7 @@ const getBuses=()=>{
 
 
 // To add a bus
-router.post("/bus/add",async(req,res)=>{
+router.post("/bus/add",auth,async(req,res)=>{
     const {email, busCategory, busDescription, busTitle, terms} = req.body;
     const company = await getCompany(email);
     const sql=`INSERT INTO Buses(busTitle, busDescription, busCategory, terms, company) VALUES
@@ -34,13 +35,13 @@ router.post("/bus/add",async(req,res)=>{
         if(err){
             res.send({"msg":"Error Occurred"})
         }
-        res.send({"msg":"Bus added"})
+        res.send({"msg":"Bus Added"})
     })  
 })
 
 
 // To get details of a particular bus
-router.get("/bus/:id",(req,res)=>{
+router.get("/bus/:id",auth,(req,res)=>{
     const id = req.params.id;
     const sql = `SELECT * FROM Buses WHERE busId=${id}`
     con.query(sql,(err,result)=>{
@@ -52,25 +53,25 @@ router.get("/bus/:id",(req,res)=>{
 })
 
 // To get details of all the buses
-router.get("/bus",async(req,res)=>{
+router.get("/bus",auth,async(req,res)=>{
     const allBuses= await getBuses();
     res.send(allBuses)
 })
 
 // To delete a bus
-router.delete("/bus/:id",(req,res)=>{
+router.delete("/bus/:id",auth,(req,res)=>{
     const id=req.params.id;
     const sql=`DELETE FROM Buses WHERE busId=${id};`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
         }
-        res.send({"msg":"Bus Deleted"})
+        res.send({"msg":"Bus Details Deleted"})
     })
 })
 
 // To edit a bus
-router.put("/bus/:id",(req,res)=>{
+router.put("/bus/:id",auth,(req,res)=>{
     const id=req.params.id;
     const {busTitle,busDescription,busCategory,terms}=req.body;
     const sql=`UPDATE Buses SET busTitle='${busTitle}', busDescription='${busDescription}',
@@ -79,12 +80,12 @@ router.put("/bus/:id",(req,res)=>{
         if(err){
             res.send({"msg":"Error occurred"})
         }
-        res.send({"msg":"Updated"})
+        res.send({"msg":"Bus Details Updated"})
     })
 })
 
 // To add a Timetable
-router.post("/timetable/add",async(req,res)=>{
+router.post("/timetable/add",auth,async(req,res)=>{
     const {source,destination,route,date,time,capacity,price,id} = req.body;
     const sql=`INSERT INTO Timetable(source, destination, route, date, time, capacity, available, price, bus)
     VALUES  ('${source}','${destination}','${route}','${date}','${time}',${capacity},${capacity},${price},${id});`
@@ -97,7 +98,7 @@ router.post("/timetable/add",async(req,res)=>{
 })
 
 // To get timetable details of a particular bus
-router.get("/:id/timetable",async(req,res)=>{
+router.get("/:id/timetable",auth,async(req,res)=>{
     const id = req.params.id
     sql= `SELECT * FROM Timetable LEFT JOIN Buses ON bus=busId WHERE busId=${id};` 
     con.query(sql,(err,result)=>{
@@ -106,13 +107,14 @@ router.get("/:id/timetable",async(req,res)=>{
         };
         if(result.length==0){
             res.send({"msg":"Current bus has no timetables"});
+            return
         }
         res.send(result);
     })
 });
 
 // To get a particular timetable
-router.get("/timetable/:id",(req,res)=>{
+router.get("/timetable/:id",auth,(req,res)=>{
     const id = req.params.id;
     const sql = `SELECT * FROM Timetable WHERE tId=${id}`
     con.query(sql,(err,result)=>{
@@ -124,7 +126,7 @@ router.get("/timetable/:id",(req,res)=>{
 })
 
 // To edit a timetable
-router.put("/timetable/:id",(req,res)=>{
+router.put("/timetable/:id",auth,(req,res)=>{
     const id=req.params.id;
     const {source,destination,route,date,time,capacity,price} = req.body;
     const sql=`UPDATE Timetable SET source='${source}', destination='${destination}',
@@ -134,12 +136,12 @@ router.put("/timetable/:id",(req,res)=>{
         if(err){
             res.send({"msg":"Error occurred"})
         }
-        res.send({"msg":"Updated"})
+        res.send({"msg":"Timetable Updated"})
     })
 })
 
 // To delete a timetable
-router.delete("/timetable/:id",(req,res)=>{
+router.delete("/timetable/:id",auth,(req,res)=>{
     const id=req.params.id;
     const sql=`DELETE FROM Timetable WHERE tId=${id};`
     con.query(sql,(err,result)=>{
@@ -152,7 +154,7 @@ router.delete("/timetable/:id",(req,res)=>{
 
 
 // To get all customers of a particular
-router.get("/customers",(req,res)=>{
+router.get("/customers",auth,(req,res)=>{
     const {email} = req.query;
     console.log(email);
     const sql = `SELECT * FROM Bookings LEFT JOIN Travellers ON booking=bookingId LEFT JOIN Timetable ON bookedBus = tId LEFT JOIN Buses 

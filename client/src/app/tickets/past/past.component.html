@@ -1,1 +1,60 @@
-<p>past works!</p>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+    <thead>
+        <tr>
+          <th>Bus</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Rating & Review</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of pastTickets">
+          <td>{{ ticket.busTitle }}</td>
+          <td>{{ ticket.source }}</td>
+          <td>{{ ticket.destination }}</td>
+          <td>{{ ticket.date | date }}</td>
+          <td>{{ ticket.time }}</td>
+          <td *ngIf="ticket.rating==0">
+              <button (click)="selectedId=ticket.bookingId" data-toggle="modal" data-target="#rating" class="btn btn-success btn-sm">Rate</button>
+          </td>
+          <td *ngIf="ticket.rating!=0">Rating: {{ ticket.rating }} Star <br> Review: {{ ticket.review }} </td>
+        </tr>
+      </tbody>
+</table>
+
+<div class="modal fade" id="rating">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content d-flex flex-column">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Rate & Review</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+       <div class="align-self-center">
+        <form [formGroup]='ratingForm' (ngSubmit)="rate()">
+            <div>
+            <input class="star star-5 form-control" id="star-5" type="radio" value="5" formControlName="rating"/>
+            <label class="star star-5" for="star-5"></label>
+            <input class="star star-4 form-control" id="star-4" type="radio" value="4" formControlName="rating"/>
+            <label class="star star-4" for="star-4"></label>
+            <input class="star star-3 form-control" id="star-3" type="radio" value="3" formControlName="rating"/>
+            <label class="star star-3" for="star-3"></label>
+            <input class="star star-2 form-control" id="star-2" type="radio" value="2" formControlName="rating"/>
+            <label class="star star-2" for="star-2"></label>
+            <input class="star star-1 form-control" id="star-1" type="radio" value="1" formControlName="rating"/>
+            <label class="star star-1" for="star-1"></label>
+            </div>
+            <div>
+                <textarea formControlName="review" placeholder="Review" cols="25" rows="5"></textarea>
+            </div>
+            <div class="d-flex justify-content-center my-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        </div>      
+        </div>
+    </div>
+</div>

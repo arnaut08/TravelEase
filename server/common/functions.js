@@ -5,8 +5,12 @@ con=require('../common/database');
 createAuth = (user,hashedpw) => {
     const {email} = user;
     return new Promise((resolve, reject) => {
-        const query1 = `INSERT INTO Auth(email, password, token) VALUES ('${email}','${hashedpw}','anotherrandom');`
+        const query1 = `INSERT INTO Auth(email, password) VALUES ('${email}','${hashedpw}');`
         con.query(query1,(err,result)=>{
+            if(err){
+                console.log(err)
+            }
+            console.log(result.insertId)
             resolve(result.insertId);
         });
     })
@@ -16,7 +20,7 @@ createAuth = (user,hashedpw) => {
 createUserDetails = (user,authId,role='user') => {
     const { firstName, lastName, phone, dob} = user;
     return new Promise((resolve, reject) => {
-    query2=  `INSERT INTO Users(firstName, lastName, phone, DOB, role, user_auth) VALUES ('${firstName}','${lastName}', ${phone}, '${dob}','${role}', ${authId});` 
+    query2=  `INSERT INTO Users(firstName, lastName, phone, DOB, role, user_auth) VALUES ('${firstName}',"${lastName}", ${phone}, '${dob}','${role}', ${authId});` 
         con.query(query2,(err,result)=>{
             if(err) throw err;
             resolve(result.insertId);

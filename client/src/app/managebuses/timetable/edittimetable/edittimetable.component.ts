@@ -18,6 +18,7 @@ export class EdittimetableComponent implements OnInit {
     this.route.params.subscribe(param=>{
       this.id=param.id;
       this.timetableService.editTimetable(this.id).subscribe(details=>{
+        console.log(details)
         this.editTimetabledetails=details;
         this.editTimetableform = new FormGroup({
           'source':new FormControl(this.editTimetabledetails.source,[Validators.required]),

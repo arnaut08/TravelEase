@@ -1,1 +1,21 @@
-<p>upcoming works!</p>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+    <thead>
+      <tr>
+        <th>Bus</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ticket of upcomingTickets">
+        <td>{{ ticket.busTitle }}</td>
+        <td>{{ ticket.source }}</td>
+        <td>{{ ticket.destination }}</td>
+        <td>{{ ticket.date | date }}</td>
+        <td>{{ ticket.time }}</td>
+      </tr>
+    </tbody>
+</table>
+    

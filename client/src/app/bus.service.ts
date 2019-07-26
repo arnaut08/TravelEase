@@ -12,8 +12,8 @@ export class BusService {
   addBus(addBusform){
     console.log(addBusform);
     
-    this.http.post("http://localhost:3000/bus/add",addBusform).subscribe(response=>{
-      console.log(response);
+    this.http.post("http://localhost:3000/bus/add",addBusform).subscribe(res=>{
+      alert(res['msg']);
     })
   }
 
@@ -26,15 +26,15 @@ export class BusService {
   }
 
   updateBus(id,editBusform){
-    this.http.put("http://localhost:3000/bus/"+id,editBusform).subscribe(response=>{
-      console.log(response);
+    this.http.put("http://localhost:3000/bus/"+id,editBusform).subscribe(res=>{
+      alert(res['msg']);
       this.router.navigate(['bus/view']);
     })
   }
 
   deleteBus(id){
-    this.http.delete("http://localhost:3000/bus/"+id).subscribe(response=>{
-      console.log(response);
+    this.http.delete("http://localhost:3000/bus/"+id).subscribe(res=>{
+      alert(res['msg']);
       this.router.navigate(['']);
     })  
   }

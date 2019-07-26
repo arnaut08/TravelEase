@@ -12,8 +12,8 @@ export class MerchantService {
   constructor(private http:HttpClient,private router:Router, private authService: AuthService) { }
 
   addMerchant(addMerchantForm){
-    this.http.post("http://localhost:3000/merchant/add",addMerchantForm).subscribe(response=>{
-      console.log(response);
+    this.http.post("http://localhost:3000/merchant/add",addMerchantForm).subscribe(res=>{
+      alert(res["msg"]);
     })
   }
 
@@ -26,16 +26,16 @@ export class MerchantService {
   }
 
   updateMerchant(id,editMerchantform){
-    this.http.put("http://localhost:3000/merchant/"+id,editMerchantform).subscribe(response=>{
-      console.log(response);
+    this.http.put("http://localhost:3000/merchant/"+id,editMerchantform).subscribe(res=>{
+      alert(res["msg"]);      
       this.router.navigate(['merchant/view']);
     })
   }
 
   deleteMerchant(id){
-    this.http.delete("http://localhost:3000/merchant/"+id).subscribe(response=>{
-      console.log(response);
-      this.router.navigate(['']);
+    this.http.delete("http://localhost:3000/merchant/"+id).subscribe(res=>{
+      alert(res["msg"]);            
+      this.router.navigate(['merchant/view']);
     })  
   }
 

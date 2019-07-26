@@ -17,6 +17,6 @@
             <span *ngIf="loginForm.get('password').errors['required']">This field is required!</span>        
         </span></label>
         </div>
-        <button class="btn btn-success align-self-center" routerLink="" [disabled]="!loginForm.valid" type="submit">Login</button>
+        <button class="btn btn-success align-self-center" [disabled]="!loginForm.valid" type="submit">Login</button>
     </form>
 </div>

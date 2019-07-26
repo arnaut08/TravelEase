@@ -12,7 +12,6 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   expirationTimer;
   constructor(private http:HttpClient,private router: Router) { }
-
   register(regForm){
     return this.http.post("http://localhost:3000/signup",regForm)
   }

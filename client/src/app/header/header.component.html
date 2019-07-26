@@ -30,6 +30,15 @@
                 <li *ngIf="role=='merchant'" class="navbar-item">
                     <a routerLink="customers" class="nav-link">Customers</a>
                 </li>
+                <li *ngIf="role=='user'" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Journeys
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" routerLink="tickets/upcoming">Upcoming</a>
+                        <a class="dropdown-item" routerLink="tickets/past">Past</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

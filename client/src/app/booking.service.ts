@@ -14,10 +14,14 @@ export class BookingService {
   }
 
   getPastTickets(){
-    return this.http.get(`http://localhost:3000/tickets/past?email=${this.authService.user.value.email}`)
+    return this.http.get(`http://localhost:3000/tickets/past`)
   }
 
   getUpcomingTickets(){
-    return this.http.get(`http://localhost:3000/tickets/upcoming?email=${this.authService.user.value.email}`)
+    return this.http.get(`http://localhost:3000/tickets/upcoming`)
+  }
+  
+  rate(ratingForm){
+    return this.http.post("http://localhost:3000/rating",ratingForm)
   }
 }

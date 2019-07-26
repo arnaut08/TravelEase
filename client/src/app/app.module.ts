@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 
 import { LoginComponent } from './login/login.component';
@@ -28,12 +28,12 @@ import { SearchComponent } from './search/search.component';
 import { ResultComponent } from './search/result/result.component';
 import { BookComponent } from './book/book.component';
 import { TravellerComponent } from './book/traveller/traveller.component';
-import { PaymentComponent } from './book/payment/payment.component';
 import { CustomersComponent } from './managemerchant/customers/customers.component';
 import { CustomersComponent as AllCustomers } from './customers/customers.component';
 import { TicketsComponent } from './tickets/tickets.component';
 import { PastComponent } from './tickets/past/past.component';
 import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
+import { AuthInterceptorService } from './auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,6 @@ import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
     ResultComponent,
     BookComponent,
     TravellerComponent,
-    PaymentComponent,
     CustomersComponent,
     AllCustomers,
     TicketsComponent,
@@ -73,7 +72,7 @@ import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
     FormsModule,
     DataTablesModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
