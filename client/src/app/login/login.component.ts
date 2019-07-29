@@ -10,22 +10,35 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  resetPassword;
   loginForm: FormGroup;
+  forgotpwForm: FormGroup;
   
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.resetPassword = false;
     this.loginForm = new FormGroup({
     'email':new FormControl(null,[Validators.required,Validators.email]),
     'password':new FormControl(null,[Validators.required])
-  });
+    });
+    this.forgotpwForm = new FormGroup({
+      'email':new FormControl(null,[Validators.required,Validators.email])
+    });
   }
 
-  submitLogin(loginForm){
-    this.authService.login(loginForm.email,loginForm.password).subscribe(res=>{
-      alert(res["msg"])
-      this.router.navigate([''])
+  submitLogin(){
+    this.authService.login(this.loginForm.value).subscribe(res=>{
+      alert(res["msg"]);
+      this.router.navigate(['']);
     })
   }
 
+  reset(){
+    this.authService.forgotPassword(this.forgotpwForm.value).subscribe(res=>{
+      alert(res["msg"]);
+      // this.router.navigate(['reset']);
+    })
+
+  }
 }

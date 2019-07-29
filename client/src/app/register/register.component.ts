@@ -9,6 +9,7 @@ import { Router } from '@angular/router'
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
+
 export class RegisterComponent implements OnInit {
   regform: FormGroup;
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) {  }
@@ -24,10 +25,12 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  display(regForm){
-    this.authService.register(regForm).subscribe(res=>{
-      alert(res["msg"])
-      this.router.navigate(['login'])
+  display(){
+    this.authService.register(this.regform.value).subscribe(res=>{
+      alert(res["msg"]);
+      if(res["msg"]!="Email already exists"){
+        this.router.navigate(['login'])
+      }
     })
   }
 }

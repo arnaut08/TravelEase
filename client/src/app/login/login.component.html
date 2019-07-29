@@ -1,7 +1,9 @@
 
 <div class="container d-flex flex-column">
-    <h3 class="align-self-center">Login</h3>
-    <form class="d-flex flex-column" [formGroup]='loginForm' (ngSubmit)="submitLogin(loginForm.value)" >
+    <h3 *ngIf="!resetPassword" class="align-self-center">Login</h3>
+    <h3 *ngIf="resetPassword" class="align-self-center my-2">Forgot Password</h3>
+    <div *ngIf="!resetPassword">
+    <form class="d-flex flex-column" [formGroup]='loginForm' (ngSubmit)="submitLogin()" >
         <div class="align-self-center">
         <label for="email">Email      
         <input type="text" id="email" class="form-control align-self-center" formControlName='email' required>
@@ -17,6 +19,26 @@
             <span *ngIf="loginForm.get('password').errors['required']">This field is required!</span>        
         </span></label>
         </div>
-        <button class="btn btn-success align-self-center" [disabled]="!loginForm.valid" type="submit">Login</button>
+        <div class="align-self-center">
+        <button class="btn btn-success mx-1 align-self-center" [disabled]="!loginForm.valid" type="submit">Login</button>
+        <button class="btn btn-success mx-1 align-self-center" (click)="resetPassword=true"  type="button">Forgot Password</button>
+        </div>
     </form>
+    </div>
+    <div *ngIf="resetPassword">
+        <form class="d-flex flex-column my-2" [formGroup]='forgotpwForm' (ngSubmit)="reset()" >
+            <div class="align-self-center">
+            <label for="email">Email      
+            <input type="text" id="email" class="form-control align-self-center" formControlName='email' required>
+            <span *ngIf="!forgotpwForm.get('email').valid && forgotpwForm.get('email').touched" class="err-msg">
+                    <span *ngIf="forgotpwForm.get('email').errors['email']">Enter a Valid Email</span>
+                    <span *ngIf="forgotpwForm.get('email').errors['required']">This field is required!</span>        
+            </span></label>
+            </div>
+            <div class="align-self-center">
+            <button class="btn btn-success mx-1 align-self-center" [disabled]="!forgotpwForm.valid" type="submit">Submit</button>
+            <button class="btn btn-success mx-1 align-self-center" (click)="resetPassword=false"  type="button">Back</button>
+            </div>
+        </form>
+    </div>
 </div>

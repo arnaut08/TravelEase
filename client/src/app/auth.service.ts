@@ -12,16 +12,17 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   expirationTimer;
   constructor(private http:HttpClient,private router: Router) { }
+  
   register(regForm){
     return this.http.post("http://localhost:3000/signup",regForm)
   }
 
-  login(email,pass){
+  login(loginForm){
     return this.http.post<{email:string,token:string,expiry:Number,msg:string,role:string}>( 'http://localhost:3000/login',
-    {email:email, password: pass}).pipe(tap(resp=>{
+    loginForm).pipe(tap(resp=>{
       if(resp.msg!="Error"){
         console.log(resp);
-        this.auth(email,resp.token, +resp.expiry, resp.role);}
+        this.auth(loginForm["email"],resp.token, +resp.expiry, resp.role);}
     }));
   }
 
@@ -65,5 +66,17 @@ export class AuthService {
     this.user.next(user);
     this.autologout(expiry);
     localStorage.setItem('localData', JSON.stringify(user));
+  }
+
+  forgotPassword(forgotpwForm){
+    return  this.http.post("http://localhost:3000/forgot",forgotpwForm);
+  }
+
+  checkToken(token){
+    return this.http.post("http://localhost:3000/reset/checkToken",{token:token})
+  }
+
+  resetPassword(resetForm){
+    return this.http.post("http://localhost:3000/reset",resetForm)
   }
 }

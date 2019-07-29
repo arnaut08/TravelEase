@@ -27,6 +27,7 @@ import { CustomersComponent as AllCustomers } from './customers/customers.compon
 import { TicketsComponent } from './tickets/tickets.component';
 import { PastComponent } from './tickets/past/past.component';
 import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 const appRoutes: Routes = [
     { path: '',canActivate:[AuthGuard], component: HomeComponent },
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
     { path: 'tickets', canActivate:[AuthGuard], component: TicketsComponent, data : {role:"user"}, children:[ 
       { path: 'past', component: PastComponent},
       { path: 'upcoming', component: UpcomingComponent}      
-    ]}
+    ]},
+    { path: 'reset', component: ResetpasswordComponent},
 ];
 
 @NgModule({
