@@ -17,8 +17,9 @@ export class BusService {
     })
   }
 
-  getBuses(){
-    return this.http.get("http://localhost:3000/bus");
+  getBusesCount(searchVal){
+    const url = `http://localhost:3000/bus?search=${searchVal}`
+    return this.http.get(url);
   }
 
   editBus(id){
@@ -37,5 +38,10 @@ export class BusService {
       alert(res['msg']);
       this.router.navigate(['']);
     })  
+  }
+  
+  getbuses(page,searchVal){
+    const url = `http://localhost:3000/bus/view/${page}?search=${searchVal}`
+    return  this.http.get(url)
   }
 }

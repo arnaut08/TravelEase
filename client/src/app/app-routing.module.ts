@@ -41,7 +41,7 @@ const appRoutes: Routes = [
     ]},
     { path: 'bus',canActivate:[AuthGuard], data : {role:"merchant"} , component: ManagebusesComponent, children:[
       { path: 'add', component: AddbusComponent },
-      { path: 'view', component: ViewbusesComponent },
+      { path: 'view/:page', component: ViewbusesComponent },
       { path: 'edit/:id', component: EditbusComponent },
       { path: ':id/timetable', component: TimetableComponent , children:[
         {path: 'add', component: AddtimetableComponent },

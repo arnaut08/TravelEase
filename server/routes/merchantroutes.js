@@ -14,12 +14,13 @@ const getCompany=(email)=>{
         });
 }
 
-const getBuses=()=>{
+const getBusesCount=(search)=>{
     return new Promise((resolve, reject) => {
-        sql= `SELECT * FROM Buses LEFT JOIN Merchants ON company=merchantId ;` 
+        sql= `SELECT COUNT(busId) AS count FROM Buses LEFT JOIN Merchants ON company=merchantId 
+        WHERE busTitle LIKE '%${search}%' OR busDescription LIKE '%${search}%' OR busCategory LIKE '%${search}%' ;` 
             con.query(sql,(err,result)=>{
                 if(err) throw err;
-                resolve(result);
+                resolve(result[0]);
             })
         });
 }
@@ -54,7 +55,8 @@ router.get("/bus/:id",auth,(req,res)=>{
 
 // To get details of all the buses
 router.get("/bus",auth,async(req,res)=>{
-    const allBuses= await getBuses();
+    const {search} = req.query;
+    const allBuses= await getBusesCount(search);
     res.send(allBuses)
 })
 
@@ -166,6 +168,21 @@ router.get("/customers",auth,(req,res)=>{
         }
         console.log(result)
         res.send(result)
+    })
+})
+
+// To get details of all the buses with pagination
+router.get("/bus/view/:page",auth,async(req,res)=>{
+    const {search} = req.query;
+    console.log(search);
+    const page = req.params.page
+    sql= `SELECT * FROM Buses LEFT JOIN Merchants ON company=merchantId WHERE busTitle LIKE '%${search}%' 
+    OR busDescription LIKE '%${search}%' OR busCategory LIKE '%${search}%' LIMIT ${(page-1)*2}, 2 ;` 
+    con.query(sql,(err,result)=>{
+        if(err){
+            res.send({"msg":"error"})
+        }
+        res.send(result);
     })
 })
 

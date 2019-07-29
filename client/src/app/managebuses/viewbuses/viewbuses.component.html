@@ -1,20 +1,36 @@
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+<div class="container mt-3">
+  <div class="d-flex justify-content-center">
+    <form [formGroup]="searchForm">
+      <input type="text" class="form-control" placeholder="Search" (keyup)="search()" formControlName="search"> 
+    </form>
+  </div>
+  <div>
+    <table class="table">
         <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Category</th>            
-            <th>Actions</th>
-            <th>TimeTable</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let bus of buses">
-            <td>{{ bus.busTitle }}</td>
-            <td>{{ bus.busDescription }}</td>
-            <td>{{ bus.busCategory }}</td>
-            <td><button (click)="edit(bus.busId)" class="btn btn-success mx-1 btn-sm">Edit</button> <button (click)="delete(bus.busId)" class="btn btn-danger mx-1 btn-sm">Delete</button></td>
-            <td><button (click)="addTimetable(bus.busId)" class="btn btn-success mx-1 btn-sm">Add Timetable</button> <button (click)="viewTimetable(bus.busId)" class="btn mx-1 btn-info btn-sm">View Timetable</button></td>            
-          </tr>
-        </tbody>
-</table>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Category</th>            
+              <th>Actions</th>
+              <th>TimeTable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let bus of buses">
+              <td>{{ bus.busTitle }}</td>
+              <td>{{ bus.busDescription }}</td>
+              <td>{{ bus.busCategory }}</td>
+              <td><button (click)="edit(bus.busId)" class="btn btn-success mx-1 btn-sm">Edit</button> <button (click)="delete(bus.busId)" class="btn btn-danger mx-1 btn-sm">Delete</button></td>
+              <td><button (click)="addTimetable(bus.busId)" class="btn btn-success mx-1 btn-sm">Add Timetable</button> <button (click)="viewTimetable(bus.busId)" class="btn mx-1 btn-info btn-sm">View Timetable</button></td>            
+            </tr>
+          </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" *ngFor="let page of pages"><a class="page-link" routerLink="../../../bus/view/{{page}}">{{page}}</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
