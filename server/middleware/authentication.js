@@ -7,7 +7,7 @@ const auth = (req,res,next)=>{
         res.send({"msg":"Authentication Required"})
     }  else {
     user = jwt.decode(token)["user"];
-    sql = `SELECT * FROM Auth WHERE email= '${user}'`
+    sql = `SELECT * FROM auth WHERE email='${user}'`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred while authenticating"})

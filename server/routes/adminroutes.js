@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 const createMerchant=(user,userDetailId)=>{
     const {companyName}=user;
     return new Promise((resolve, reject) => {
-        query2=  `INSERT INTO Merchants(companyName, owner) VALUES ('${companyName}', ${userDetailId});` 
+        query2=  `INSERT INTO merchants(companyName, owner) VALUES ('${companyName}', ${userDetailId});` 
             con.query(query2,(err,result)=>{
                 if(err) throw err;
                 resolve(result.insertId);
@@ -27,10 +27,10 @@ const createMerchant=(user,userDetailId)=>{
         });
 }
 
-// To get Merchants
+// To get merchants
 const getMerchants=()=>{
     return new Promise((resolve, reject) => {
-        query=  `SELECT * FROM Merchants LEFT JOIN Users ON owner=userId ;` 
+        query=  `SELECT * FROM merchants LEFT JOIN users ON owner=userId ;` 
             con.query(query,(err,result)=>{
                 if(err) throw err;
                 resolve(result);
@@ -56,7 +56,7 @@ const sendPassword=(email,password)=>{
 }
 
 
-// To add Merchants
+// To add merchants
 router.post("/merchant/add",auth,async (req,res)=>{
     const user = req.body;
     const {password,email}=user;
@@ -78,7 +78,7 @@ router.get("/merchant",auth,async(req,res)=>{
 // To fetch particular merchant's details
 router.get("/merchant/:id",auth,(req,res)=>{
     const id = req.params.id;
-    const sql = `SELECT * FROM Merchants LEFT JOIN Users ON owner = userId LEFT JOIN Auth ON authId = user_auth WHERE merchantId=${id}`
+    const sql = `SELECT * FROM merchants LEFT JOIN users ON owner = userId LEFT JOIN auth ON authId = user_auth WHERE merchantId=${id}`
     con.query(sql, (err, result) => {
         if(err){
             res.send({"msg":"Error occurred"})
@@ -91,7 +91,7 @@ router.get("/merchant/:id",auth,(req,res)=>{
 router.put("/merchant/:id",auth,(req,res)=>{
     const id=req.params.id;
     const {firstName,dob,lastName,phone,companyName,email}=req.body;
-    const sql=`UPDATE Merchants LEFT JOIN Users ON owner=userId LEFT JOIN Auth ON authId=user_auth
+    const sql=`UPDATE merchants LEFT JOIN users ON owner=userId LEFT JOIN auth ON authId=user_auth
     SET firstName='${firstName}', lastName='${lastName}', DOB='${dob}', phone=${phone}, email='${email}',
     companyName='${companyName}' WHERE merchantId=${id};`
     con.query(sql,(err,result)=>{
@@ -105,8 +105,8 @@ router.put("/merchant/:id",auth,(req,res)=>{
 // To delete a merchant
 router.delete("/merchant/:id",auth,(req,res)=>{
     const id=req.params.id;
-    const sql=`DELETE FROM Auth WHERE authId=(SELECT authId FROM Merchants LEFT JOIN 
-        Users ON owner=userId LEFT JOIN Auth ON authId=user_auth WHERE merchantId=${id});`
+    const sql=`DELETE FROM auth WHERE authId=(SELECT authId FROM merchants LEFT JOIN 
+        users ON owner=userId LEFT JOIN auth ON authId=user_auth WHERE merchantId=${id});`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
@@ -118,8 +118,8 @@ router.delete("/merchant/:id",auth,(req,res)=>{
 // To get a merchant's customers' details
 router.get("/merchant/:id/customers",auth,(req,res)=>{
     const id = req.params.id;
-    const sql = `SELECT * FROM Bookings LEFT JOIN Travellers ON booking=bookingId LEFT JOIN Timetable ON bookedBus = tId 
-    LEFT JOIN Buses ON bus = busId LEFT JOIN Users ON bookedBy = userId WHERE company = ${id}`
+    const sql = `SELECT * FROM bookings LEFT JOIN Travellers ON booking=bookingId LEFT JOIN timtetable ON bookedBus = tId 
+    LEFT JOIN buses ON bus = busId LEFT JOIN users ON bookedBy = userId WHERE company = ${id}`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})

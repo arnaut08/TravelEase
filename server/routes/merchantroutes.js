@@ -6,7 +6,7 @@ con=require('../common/database');
 
 const getCompany=(email)=>{
     return new Promise((resolve, reject) => {
-        query=  `SELECT merchantId FROM Merchants LEFT JOIN Users ON owner=userId LEFT JOIN Auth ON authId=user_auth WHERE email='${email}' ;` 
+        query=  `SELECT merchantId FROM merchants LEFT JOIN users ON owner=userId LEFT JOIN auth ON authId=user_auth WHERE email='${email}' ;` 
             con.query(query,(err,result)=>{
                 if(err) throw err;
                 resolve(result[0].merchantId);
@@ -16,7 +16,7 @@ const getCompany=(email)=>{
 
 const getBusesCount=(search)=>{
     return new Promise((resolve, reject) => {
-        sql= `SELECT COUNT(busId) AS count FROM Buses LEFT JOIN Merchants ON company=merchantId 
+        sql= `SELECT COUNT(busId) AS count FROM buses LEFT JOIN merchants ON company=merchantId 
         WHERE busTitle LIKE '%${search}%' OR busDescription LIKE '%${search}%' OR busCategory LIKE '%${search}%' ;` 
             con.query(sql,(err,result)=>{
                 if(err) throw err;
@@ -30,7 +30,7 @@ const getBusesCount=(search)=>{
 router.post("/bus/add",auth,async(req,res)=>{
     const {email, busCategory, busDescription, busTitle, terms} = req.body;
     const company = await getCompany(email);
-    const sql=`INSERT INTO Buses(busTitle, busDescription, busCategory, terms, company) VALUES
+    const sql=`INSERT INTO buses(busTitle, busDescription, busCategory, terms, company) VALUES
     ('${busTitle}','${busDescription}','${busCategory}','${terms}',${company});`
     con.query(sql,(err,result)=>{
         if(err){
@@ -44,7 +44,7 @@ router.post("/bus/add",auth,async(req,res)=>{
 // To get details of a particular bus
 router.get("/bus/:id",auth,(req,res)=>{
     const id = req.params.id;
-    const sql = `SELECT * FROM Buses WHERE busId=${id}`
+    const sql = `SELECT * FROM buses WHERE busId=${id}`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
@@ -63,7 +63,7 @@ router.get("/bus",auth,async(req,res)=>{
 // To delete a bus
 router.delete("/bus/:id",auth,(req,res)=>{
     const id=req.params.id;
-    const sql=`DELETE FROM Buses WHERE busId=${id};`
+    const sql=`DELETE FROM buses WHERE busId=${id};`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
@@ -76,7 +76,7 @@ router.delete("/bus/:id",auth,(req,res)=>{
 router.put("/bus/:id",auth,(req,res)=>{
     const id=req.params.id;
     const {busTitle,busDescription,busCategory,terms}=req.body;
-    const sql=`UPDATE Buses SET busTitle='${busTitle}', busDescription='${busDescription}',
+    const sql=`UPDATE buses SET busTitle='${busTitle}', busDescription='${busDescription}',
     busCategory='${busCategory}', terms='${terms}' WHERE busId=${id};`
     con.query(sql,(err,result)=>{
         if(err){
@@ -86,10 +86,10 @@ router.put("/bus/:id",auth,(req,res)=>{
     })
 })
 
-// To add a Timetable
+// To add a timetable
 router.post("/timetable/add",auth,async(req,res)=>{
     const {source,destination,route,date,time,capacity,price,id} = req.body;
-    const sql=`INSERT INTO Timetable(source, destination, route, date, time, capacity, available, price, bus)
+    const sql=`INSERT INTO timetable(source, destination, route, date, time, capacity, available, price, bus)
     VALUES  ('${source}','${destination}','${route}','${date}','${time}',${capacity},${capacity},${price},${id});`
     con.query(sql,(err,result)=>{
         if(err){
@@ -102,7 +102,7 @@ router.post("/timetable/add",auth,async(req,res)=>{
 // To get timetable details of a particular bus
 router.get("/:id/timetable",auth,async(req,res)=>{
     const id = req.params.id
-    sql= `SELECT * FROM Timetable LEFT JOIN Buses ON bus=busId WHERE busId=${id};` 
+    sql= `SELECT * FROM timetable LEFT JOIN buses ON bus=busId WHERE busId=${id};` 
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
@@ -118,7 +118,7 @@ router.get("/:id/timetable",auth,async(req,res)=>{
 // To get a particular timetable
 router.get("/timetable/:id",auth,(req,res)=>{
     const id = req.params.id;
-    const sql = `SELECT * FROM Timetable WHERE tId=${id}`
+    const sql = `SELECT * FROM timetable WHERE tId=${id}`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
@@ -131,26 +131,26 @@ router.get("/timetable/:id",auth,(req,res)=>{
 router.put("/timetable/:id",auth,(req,res)=>{
     const id=req.params.id;
     const {source,destination,route,date,time,capacity,price} = req.body;
-    const sql=`UPDATE Timetable SET source='${source}', destination='${destination}',
+    const sql=`UPDATE timetable SET source='${source}', destination='${destination}',
     route='${route}', date='${date.substring(0,10)}', time='${time}', capacity=${capacity}, price=${price}
     WHERE tId=${id};`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
         }
-        res.send({"msg":"Timetable Updated"})
+        res.send({"msg":"timetable Updated"})
     })
 })
 
 // To delete a timetable
 router.delete("/timetable/:id",auth,(req,res)=>{
     const id=req.params.id;
-    const sql=`DELETE FROM Timetable WHERE tId=${id};`
+    const sql=`DELETE FROM timetable WHERE tId=${id};`
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
         }
-        res.send({"msg":"Timetable Deleted"})
+        res.send({"msg":"timetable Deleted"})
     })
 })
 
@@ -159,25 +159,31 @@ router.delete("/timetable/:id",auth,(req,res)=>{
 router.get("/customers",auth,(req,res)=>{
     const {email} = req.query;
     console.log(email);
-    const sql = `SELECT * FROM Bookings LEFT JOIN Travellers ON booking=bookingId LEFT JOIN Timetable ON bookedBus = tId LEFT JOIN Buses 
-    ON bus = busId LEFT JOIN Users ON bookedBy = userId LEFT JOIN Auth on user_auth = authId WHERE company=( SELECT merchantId FROM Merchants 
-    LEFT JOIN Users ON owner = userId LEFT JOIN Auth on user_auth = authId WHERE email ='${email}')`;
+    const sql = `SELECT * FROM bookings LEFT JOIN travellers ON booking=bookingId
+    LEFT JOIN timetable ON bookedBus = tId
+    LEFT JOIN buses ON bus = busId 
+    LEFT JOIN users ON bookedBy = userId 
+    LEFT JOIN auth ON user_auth = authId 
+    WHERE company=( SELECT merchantId FROM merchants LEFT JOIN users ON owner = userId
+    LEFT JOIN auth on user_auth = authId WHERE email ='${email}')`;
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+            console.log(err)
+        } else{
+            console.log(result)
+            res.send(result)
         }
-        console.log(result)
-        res.send(result)
     })
 })
 
 // To get details of all the buses with pagination
 router.get("/bus/view/:page",auth,async(req,res)=>{
     const {search} = req.query;
-    console.log(search);
     const page = req.params.page
-    sql= `SELECT * FROM Buses LEFT JOIN Merchants ON company=merchantId WHERE busTitle LIKE '%${search}%' 
-    OR busDescription LIKE '%${search}%' OR busCategory LIKE '%${search}%' LIMIT ${(page-1)*2}, 2 ;` 
+    sql= `SELECT * FROM buses LEFT JOIN merchants ON company=merchantId 
+    WHERE busTitle LIKE '%${search}%' OR busDescription LIKE '%${search}%' 
+    OR busCategory LIKE '%${search}%' LIMIT ${(page-1)*2}, 2 ;` 
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error"})

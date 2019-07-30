@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { Path } from '../../path';
 
 @Component({
   selector: 'app-result',
@@ -16,17 +17,12 @@ export class ResultComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params=>{
-      const url = `http://localhost:3000/search?source=${params.source}&destination=${params.destination}&date=${params.date}&category=${params.busCategory}`;
+      const url = `${Path.currentPath}/search?source=${params.source}&destination=${params.destination}&date=${params.date}&category=${params.busCategory}`;
       this.http.get(url).subscribe(buses=>{
         this.searchedBuses=buses;
         this.dtTrigger.next();
       })
     })
-    // this.searchService.searchBus.subscribe(buses=>{
-    //   this.searchedBuses=buses;
-    //   console.log(this.searchedBuses)
-    // })
-    // this.searchedBuses = this.searchService.searchedBuses;
   }
 
   book(id){

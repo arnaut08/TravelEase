@@ -31,7 +31,7 @@ const sendLink = (email, token) => {
 }
 
 const resetPw = (password,email) => {
-    const sql = `UPDATE Auth SET password='${password}' WHERE email='${email}'`
+    const sql = `UPDATE auth SET password='${password}' WHERE email='${email}'`
     con.query(sql,(err)=>{
         if(err){
             console.log(err)
@@ -57,12 +57,12 @@ router.post("/signup",async (req,res)=>{
 // Common Login
 router.post("/login",(req,res)=>{
     const {email,password} = req.body;
-    const sql = `SELECT * FROM Auth LEFT JOIN Users ON authId=user_auth WHERE email='${email}';`
+    const sql = `SELECT * FROM auth LEFT JOIN users ON authId=user_auth WHERE email='${email}';`
     con.query(sql,(err,result)=>{
         if(err){
-            res.send({"error":err})
+            res.send({"msg":err})
         }else if(result.length==0){
-            res.send({"error":"Email Doesn't exist"})
+            res.send({"msg":"Invalid Credentials"})
         }else{
         bcrypt.compare(password,result[0].password).then(authenticated=>{
             if(authenticated){
@@ -70,9 +70,9 @@ router.post("/login",(req,res)=>{
                 const options={expiresIn:3600000};
                 const secret="gloryglorymanchesterunited";
                 const token= jwt.sign(payload,secret,options);
-                res.send({"token":token,expiry:options.expiresIn,"msg":"Logged In","role":result[0].role});
+                res.send({"token":token,expiry:options.expiresIn,"role":result[0].role});
             } else {
-                res.send({"msg":"Error"})  
+                res.send({"msg":"Invalid Credentials"})  
             }
         })}
     })

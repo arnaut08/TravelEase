@@ -35,6 +35,8 @@ import { PastComponent } from './tickets/past/past.component';
 import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UploadpicComponent } from './uploadpic/uploadpic.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     TicketsComponent,
     PastComponent,
     UpcomingComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    ProfileComponent,
+    UploadpicComponent
   ],
   imports: [
     BrowserModule,

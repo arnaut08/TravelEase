@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, OnChanges, AfterContentInit, AfterContentChecked, AfterViewInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BusService } from 'src/app/bus.service';
 import { FormGroup, FormControl } from '@angular/forms';

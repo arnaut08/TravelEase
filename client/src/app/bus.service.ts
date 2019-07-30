@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Path } from './path';
 
 @Injectable({
   providedIn: 'root'
@@ -12,36 +13,36 @@ export class BusService {
   addBus(addBusform){
     console.log(addBusform);
     
-    this.http.post("http://localhost:3000/bus/add",addBusform).subscribe(res=>{
+    this.http.post(`${Path.currentPath}/bus/add`,addBusform).subscribe(res=>{
       alert(res['msg']);
     })
   }
 
   getBusesCount(searchVal){
-    const url = `http://localhost:3000/bus?search=${searchVal}`
+    const url = `${Path.currentPath}/bus?search=${searchVal}`
     return this.http.get(url);
   }
 
   editBus(id){
-    return this.http.get("http://localhost:3000/bus/"+id);
+    return this.http.get(`${Path.currentPath}/bus/`+id);
   }
 
   updateBus(id,editBusform){
-    this.http.put("http://localhost:3000/bus/"+id,editBusform).subscribe(res=>{
+    this.http.put(`${Path.currentPath}/bus/`+id,editBusform).subscribe(res=>{
       alert(res['msg']);
       this.router.navigate(['bus/view']);
     })
   }
 
   deleteBus(id){
-    this.http.delete("http://localhost:3000/bus/"+id).subscribe(res=>{
+    this.http.delete(`${Path.currentPath}/bus/`+id).subscribe(res=>{
       alert(res['msg']);
       this.router.navigate(['']);
     })  
   }
   
   getbuses(page,searchVal){
-    const url = `http://localhost:3000/bus/view/${page}?search=${searchVal}`
+    const url = `${Path.currentPath}/bus/view/${page}?search=${searchVal}`
     return  this.http.get(url)
   }
 }

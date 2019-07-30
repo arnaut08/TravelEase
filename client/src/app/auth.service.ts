@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Path } from './path';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,11 @@ export class AuthService {
   constructor(private http:HttpClient,private router: Router) { }
   
   register(regForm){
-    return this.http.post("http://localhost:3000/signup",regForm)
+    return this.http.post(`${Path.currentPath}/signup`,regForm)
   }
 
   login(loginForm){
-    return this.http.post<{email:string,token:string,expiry:Number,msg:string,role:string}>( 'http://localhost:3000/login',
+    return this.http.post<{email:string,token:string,expiry:Number,msg:string,role:string}>( `${Path.currentPath}/login`,
     loginForm).pipe(tap(resp=>{
       if(resp.msg!="Error"){
         console.log(resp);
@@ -69,14 +70,14 @@ export class AuthService {
   }
 
   forgotPassword(forgotpwForm){
-    return  this.http.post("http://localhost:3000/forgot",forgotpwForm);
+    return  this.http.post(`${Path.currentPath}/forgot`,forgotpwForm);
   }
 
   checkToken(token){
-    return this.http.post("http://localhost:3000/reset/checkToken",{token:token})
+    return this.http.post(`${Path.currentPath}/reset/checkToken`,{token:token})
   }
 
   resetPassword(resetForm){
-    return this.http.post("http://localhost:3000/reset",resetForm)
+    return this.http.post(`${Path.currentPath}/reset`,resetForm)
   }
 }

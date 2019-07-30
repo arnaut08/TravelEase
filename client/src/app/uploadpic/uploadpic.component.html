@@ -1,0 +1,11 @@
+<div class="container">
+    <form [formGroup]='uploadPic' class="d-flex flex-column" (ngSubmit)="submit()" enctype="multipart/form-data">
+        <div class="align-self-center my-1">
+            <input type="file" class="form-control" (change)="getFile($event)" formControlName="avatar" name="avatar" />
+        </div>
+        <div class="align-self-center my-1">
+            <button type="submit" class="btn mx-1 btn-warning">Submit</button>
+        </div>
+    </form>
+</div>
+    

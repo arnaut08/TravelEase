@@ -46,7 +46,6 @@ export class PastComponent implements OnInit, OnDestroy {
     this.bookingService.rate(this.ratingForm.value).subscribe(res=>{
       console.log(res);
       alert('Ratings submitted');
-      this.router.navigate([''])
     })
   }
 }

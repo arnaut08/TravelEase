@@ -1,5 +1,5 @@
 <nav class="navbar navbar-light bg-light navbar-expand">
-    <a class="navbar-brand" href="/home">TravelEase</a>
+    <a class="navbar-brand" routerLink="">TravelEase</a>
     <div class="container justify-content-center pr-5">
         <div class="menu pr-3">
             <ul class="navbar-nav">
@@ -38,6 +38,9 @@
                         <a class="dropdown-item" routerLink="tickets/upcoming">Upcoming</a>
                         <a class="dropdown-item" routerLink="tickets/past">Past</a>
                     </div>
+                </li>
+                <li *ngIf="loggedin" class="navbar-item">
+                    <a routerLink="profile" class="nav-link">Profile</a>
                 </li>
             </ul>
         </div>

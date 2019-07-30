@@ -28,11 +28,15 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { PastComponent } from './tickets/past/past.component';
 import { UpcomingComponent } from './tickets/upcoming/upcoming.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UploadpicComponent } from './uploadpic/uploadpic.component';
 
 const appRoutes: Routes = [
     { path: '',canActivate:[AuthGuard], component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'profile',canActivate:[AuthGuard], component: ProfileComponent },
+    { path: 'upload',canActivate:[AuthGuard], component: UploadpicComponent },
     { path: 'merchant',canActivate:[AuthGuard], data : {role:"admin"} , component: ManagemerchantComponent, children:[
       { path: 'add', component: AddmerchantComponent },
       { path: 'view', component: ViewmerchantComponent },

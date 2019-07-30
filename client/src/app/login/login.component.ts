@@ -29,7 +29,9 @@ export class LoginComponent implements OnInit {
 
   submitLogin(){
     this.authService.login(this.loginForm.value).subscribe(res=>{
-      alert(res["msg"]);
+      if(res["msg"]){
+        alert(res["msg"]);
+      }
       this.router.navigate(['']);
     })
   }
@@ -37,7 +39,6 @@ export class LoginComponent implements OnInit {
   reset(){
     this.authService.forgotPassword(this.forgotpwForm.value).subscribe(res=>{
       alert(res["msg"]);
-      // this.router.navigate(['reset']);
     })
 
   }

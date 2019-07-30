@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Path } from './path';
 
 @Injectable({
   providedIn: 'root'
@@ -12,38 +13,38 @@ export class MerchantService {
   constructor(private http:HttpClient,private router:Router, private authService: AuthService) { }
 
   addMerchant(addMerchantForm){
-    this.http.post("http://localhost:3000/merchant/add",addMerchantForm).subscribe(res=>{
+    this.http.post(`${Path.currentPath}/merchant/add`,addMerchantForm).subscribe(res=>{
       alert(res["msg"]);
     })
   }
 
   getMerchants(){
-    return this.http.get("http://localhost:3000/merchant");
+    return this.http.get(`${Path.currentPath}/merchant`);
   }
 
   editMerchant(id){
-    return this.http.get("http://localhost:3000/merchant/"+id)
+    return this.http.get(`${Path.currentPath}/merchant/`+id)
   }
 
   updateMerchant(id,editMerchantform){
-    this.http.put("http://localhost:3000/merchant/"+id,editMerchantform).subscribe(res=>{
+    this.http.put(`${Path.currentPath}/merchant/`+id,editMerchantform).subscribe(res=>{
       alert(res["msg"]);      
       this.router.navigate(['merchant/view']);
     })
   }
 
   deleteMerchant(id){
-    this.http.delete("http://localhost:3000/merchant/"+id).subscribe(res=>{
+    this.http.delete(`${Path.currentPath}/merchant/`+id).subscribe(res=>{
       alert(res["msg"]);            
       this.router.navigate(['merchant/view']);
     })  
   }
 
   getCustomers(id){
-    return this.http.get("http://localhost:3000/merchant/"+id+"/customers");
+    return this.http.get(`${Path.currentPath}/merchant/`+id+"/customers");
   }
 
   getAllcustomers(){
-    return this.http.get(`http://localhost:3000/customers?email=${this.authService.user.value.email}`)
+    return this.http.get(`${Path.currentPath}/customers?email=${this.authService.user.value.email}`)
   }
 }
