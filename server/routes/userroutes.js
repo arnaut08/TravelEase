@@ -102,6 +102,7 @@ router.get("/timetable/:id/price",auth,(req,res)=>{
     })
 })
 
+// Payment Gateway
 router.post("/payment",auth,(req,res)=>{
     const {token,email,amount}= req.body
     const stripe = require('stripe')('sk_test_7Fe2sqAjXQobbklio599hFIX00BlKUNp3O');

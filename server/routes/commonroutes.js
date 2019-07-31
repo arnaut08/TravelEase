@@ -23,6 +23,7 @@ router.get("/profile",auth,(req,res)=>{
     })
 })
 
+
 router.post("/upload",auth,(req,res)=>{
     upload(req,res,(err)=>{
         if(err){
@@ -38,6 +39,20 @@ router.post("/upload",auth,(req,res)=>{
                     res.send({"msg":"Image Uploaded"})
                 }
             })
+        }
+    })
+})
+
+// To update user details
+router.put("/profile/edit",auth,(req,res)=>{
+    const { firstName, lastName, phone, dob } = req.body;
+    sql = `UPDATE users SET firstName = '${firstName}', lastName = '${lastName}', phone = ${phone} , DOB = '${dob}'
+    WHERE user_auth=(SELECT authId FROM auth WHERE email='${req.user}')`
+    con.query(sql,(err)=>{
+        if(err){
+            res.send({"msg":"Error Occurred"})
+        } else {
+            res.send({"msg":"Profile Updated"})
         }
     })
 })

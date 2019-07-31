@@ -1,0 +1,34 @@
+<div class="container d-flex flex-column">
+    <h3 class="align-self-center">Edit Profile</h3>
+    <form class="d-flex flex-column" [formGroup]='editProfileForm' (ngSubmit)="edit()" >
+        <div class="align-self-center my-1">
+        <label for="firstName">First Name
+        <input type="text" id="firstName" class="form-control" formControlName='firstName' required>
+        <span *ngIf="!editProfileForm.get('firstName').valid && editProfileForm.get('firstName').touched" class="err-msg">
+            <span *ngIf="editProfileForm.get('firstName').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="lastName">Last Name      
+        <input type="text" id="lastName" class="form-control" formControlName='lastName' required>
+        <span *ngIf="!editProfileForm.get('lastName').valid && editProfileForm.get('lastName').touched" class="err-msg">
+            <span *ngIf="editProfileForm.get('lastName').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="phone">Mobile Number
+        <input type="number" id="phone" class="form-control" formControlName='phone' required>
+        <span *ngIf="!editProfileForm.get('phone').valid && editProfileForm.get('phone').touched" class="err-msg">
+            <span *ngIf="editProfileForm.get('phone').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <div class=" align-self-center my-1">
+        <label for="dob">Date Of Birth      
+        <input type="date" id='dob' class="form-control" formControlName='dob' required>
+        <span *ngIf="!editProfileForm.get('dob').valid && editProfileForm.get('dob').touched" class="err-msg">
+            <span *ngIf="editProfileForm.get('dob').errors['required']">This field is required!</span>        
+        </span></label>
+        </div>
+        <button class="btn btn-success align-self-center" [disabled]="!editProfileForm.valid" type="submit">Submit</button>
+    </form>
+</div>

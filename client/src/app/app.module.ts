@@ -37,6 +37,8 @@ import { AuthInterceptorService } from './auth-interceptor.service';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UploadpicComponent } from './uploadpic/uploadpic.component';
+import { EditprofileComponent } from './profile/editprofile/editprofile.component';
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { UploadpicComponent } from './uploadpic/uploadpic.component';
     UpcomingComponent,
     ResetpasswordComponent,
     ProfileComponent,
-    UploadpicComponent
+    UploadpicComponent,
+    EditprofileComponent,
+    ChangepasswordComponent
   ],
   imports: [
     BrowserModule,

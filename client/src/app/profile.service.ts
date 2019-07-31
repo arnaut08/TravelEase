@@ -16,4 +16,12 @@ export class ProfileService {
   uploadPic(pic){
     return this.http.post(`${Path.currentPath}/upload`,pic);
   }
+
+  editProfile(editProfileForm){
+    return this.http.put(`${Path.currentPath}/profile/edit`,editProfileForm);
+  }
+
+  changePassword(changePasswordForm){
+    return this.http.put(`${Path.currentPath}/changePassword`,changePasswordForm);
+  }
 }

@@ -3,6 +3,7 @@ router = express.Router(),
 bcrypt = require("bcrypt"),
 jwt = require("jsonwebtoken"),
 nodemailer = require("nodemailer"),
+auth = require("../middleware/authentication"),
 con = require('../common/database');
 
 const {createAuth, createUserDetails, hashpw, checkUser} = require('../common/functions')
@@ -30,6 +31,7 @@ const sendLink = (email, token) => {
     })    
 }
 
+// To reset password
 const resetPw = (password,email) => {
     const sql = `UPDATE auth SET password='${password}' WHERE email='${email}'`
     con.query(sql,(err)=>{
@@ -39,10 +41,29 @@ const resetPw = (password,email) => {
     })
 }
 
+// To compare entered password with the user's password in the database
+const checkPw = (email,password) => {
+    return new Promise((resolve,reject)=>{
+        const sql = `SELECT * FROM auth WHERE email='${email}';`
+        con.query(sql,(err,result)=>{
+            if(err){
+                reject({"msg":"Error Occurred"})
+            }else{
+            bcrypt.compare(password,result[0].password).then(authenticated=>{
+                if(authenticated){
+                    resolve("Correct Password");
+                } else {
+                    resolve("Incorrect Password")  
+                }
+            })}
+        })
+    })
+}
+
 // User Registration 
 router.post("/signup",async (req,res)=>{
     const user = req.body;
-    const { email, password} = user;
+    const { email, password } = user;
     const exists = await checkUser(email);
     if(exists.length!=0){
         res.send({"msg":"Email already exists"})
@@ -114,6 +135,29 @@ router.post("/reset",async(req,res)=>{
     const hashedpw = await hashpw(password);
     resetPw(hashedpw,email);
     res.send({"msg":"Password changed successfully"})
+})
+
+
+// To change a user's password
+router.put("/changePassword", auth, async(req,res)=>{
+    const email = req.user;
+    const { oldPassword, newPassword } = req.body;
+    console.log(oldPassword, newPassword);
+    const msg = await checkPw(email,oldPassword);
+    console.log(msg);
+    if(msg=="Incorrect Password"){
+        res.send({"msg":msg})
+    } else {
+        const hashedpw = await hashpw(newPassword);
+        const sql = `UPDATE auth SET password='${hashedpw}' WHERE email='${email}'`;
+        con.query(sql,(err)=>{
+            if(err){
+                res.send({"msg":"Error Occurred"})
+            } else {
+                res.send({"msg":"Password Changed"})
+            }
+        })
+    }
 })
 
 module.exports = router;
