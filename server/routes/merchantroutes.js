@@ -8,7 +8,9 @@ const getCompany=(email)=>{
     return new Promise((resolve, reject) => {
         query=  `SELECT merchantId FROM merchants LEFT JOIN users ON owner=userId LEFT JOIN auth ON authId=user_auth WHERE email='${email}' ;` 
             con.query(query,(err,result)=>{
-                if(err) throw err;
+                if(err){
+                    reject(err)
+                }
                 resolve(result[0].merchantId);
             })
         });
@@ -19,7 +21,9 @@ const getBusesCount=(search)=>{
         sql= `SELECT COUNT(busId) AS count FROM buses LEFT JOIN merchants ON company=merchantId 
         WHERE busTitle LIKE '%${search}%' OR busDescription LIKE '%${search}%' OR busCategory LIKE '%${search}%' ;` 
             con.query(sql,(err,result)=>{
-                if(err) throw err;
+                if(err){
+                    reject(err)
+                }
                 resolve(result[0]);
             })
         });
@@ -35,8 +39,9 @@ router.post("/bus/add",auth,async(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error Occurred"})
+        } else {
+            res.send({"msg":"Bus Added"})
         }
-        res.send({"msg":"Bus Added"})
     })  
 })
 
@@ -48,8 +53,9 @@ router.get("/bus/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+        } else {
+            res.send(result[0])
         }
-        res.send(result[0])
     })
 })
 
@@ -67,8 +73,9 @@ router.delete("/bus/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send({"msg":"Bus Details Deleted"})
         }
-        res.send({"msg":"Bus Details Deleted"})
     })
 })
 
@@ -81,8 +88,9 @@ router.put("/bus/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send({"msg":"Bus Details Updated"})
         }
-        res.send({"msg":"Bus Details Updated"})
     })
 })
 
@@ -94,8 +102,9 @@ router.post("/timetable/add",auth,async(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error Occurred"})
+        } else {
+            res.send({"msg":"Timetable added"})
         }
-        res.send({"msg":"Timetable added"})
     })  
 })
 
@@ -106,12 +115,11 @@ router.get("/:id/timetable",auth,async(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
-        };
-        if(result.length==0){
+        } else if(result.length==0){
             res.send({"msg":"Current bus has no timetables"});
-            return
+        } else {
+            res.send(result);
         }
-        res.send(result);
     })
 });
 
@@ -122,8 +130,9 @@ router.get("/timetable/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+        } else {
+            res.send(result[0])
         }
-        res.send(result[0])
     })
 })
 
@@ -137,8 +146,9 @@ router.put("/timetable/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send({"msg":"timetable Updated"})
         }
-        res.send({"msg":"timetable Updated"})
     })
 })
 
@@ -149,8 +159,9 @@ router.delete("/timetable/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send({"msg":"timetable Deleted"})
         }
-        res.send({"msg":"timetable Deleted"})
     })
 })
 
@@ -169,9 +180,7 @@ router.get("/customers",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
-            console.log(err)
         } else{
-            console.log(result)
             res.send(result)
         }
     })
@@ -187,8 +196,9 @@ router.get("/bus/view/:page",auth,async(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error"})
+        }else {
+            res.send(result);
         }
-        res.send(result);
     })
 })
 

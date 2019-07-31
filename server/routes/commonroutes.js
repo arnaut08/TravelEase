@@ -11,6 +11,7 @@ storage = multer.diskStorage({destination: (req,file,cb)=>{
 }),
 upload = multer({storage : storage}).single('avatar');
 
+// To get user details
 router.get("/profile",auth,(req,res)=>{
     const email = req.user;
     const sql = `SELECT * FROM users LEFT JOIN auth ON authId = user_auth WHERE email='${email}'`;
@@ -24,6 +25,7 @@ router.get("/profile",auth,(req,res)=>{
 })
 
 
+// To change profile picture
 router.post("/upload",auth,(req,res)=>{
     upload(req,res,(err)=>{
         if(err){

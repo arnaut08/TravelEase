@@ -21,7 +21,9 @@ const createMerchant=(user,userDetailId)=>{
     return new Promise((resolve, reject) => {
         query2=  `INSERT INTO merchants(companyName, owner) VALUES ('${companyName}', ${userDetailId});` 
             con.query(query2,(err,result)=>{
-                if(err) throw err;
+                if(err){
+                    reject(err)
+                };
                 resolve(result.insertId);
             })
         });
@@ -32,7 +34,9 @@ const getMerchants=()=>{
     return new Promise((resolve, reject) => {
         query=  `SELECT * FROM merchants LEFT JOIN users ON owner=userId ;` 
             con.query(query,(err,result)=>{
-                if(err) throw err;
+                if(err){
+                    reject(err)
+                };
                 resolve(result);
             })
         });
@@ -82,8 +86,9 @@ router.get("/merchant/:id",auth,(req,res)=>{
     con.query(sql, (err, result) => {
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send(result[0])
         }
-        res.send(result[0])
     })
 })
 
@@ -97,8 +102,9 @@ router.put("/merchant/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send({"msg":"Updated"})
         }
-        res.send({"msg":"Updated"})
     })
 })
 
@@ -110,8 +116,9 @@ router.delete("/merchant/:id",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send({"msg":"Merchant Deleted"})
         }
-        res.send({"msg":"Merchant Deleted"})
     })
 })
 
@@ -123,8 +130,9 @@ router.get("/merchant/:id/customers",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error occurred"})
+        } else {
+            res.send(result)    
         }
-        res.send(result)    
     })
 })
 

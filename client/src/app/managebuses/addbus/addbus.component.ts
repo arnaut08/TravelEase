@@ -23,7 +23,6 @@ export class AddbusComponent implements OnInit {
 
   submit(){
     this.addBusform.value.email=this.authService.user.value.email;
-    console.log("in submit");
     this.busService.addBus(this.addBusform.value);
   }
 

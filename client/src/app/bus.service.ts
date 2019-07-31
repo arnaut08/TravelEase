@@ -10,11 +10,10 @@ export class BusService {
 
   constructor(private http: HttpClient, private router:Router) { }
 
-  addBus(addBusform){
-    console.log(addBusform);
-    
+  addBus(addBusform){    
     this.http.post(`${Path.currentPath}/bus/add`,addBusform).subscribe(res=>{
       alert(res['msg']);
+      this.router.navigate(['bus/view'],{ queryParams: { page : 1 } });
     })
   }
 
@@ -30,7 +29,7 @@ export class BusService {
   updateBus(id,editBusform){
     this.http.put(`${Path.currentPath}/bus/`+id,editBusform).subscribe(res=>{
       alert(res['msg']);
-      this.router.navigate(['bus/view']);
+      this.router.navigate(['bus/view'],{ queryParams: { page : 1 } });
     })
   }
 

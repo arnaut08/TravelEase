@@ -16,15 +16,21 @@ export class EditbusComponent implements OnInit {
   constructor(private busService:BusService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.editBusform = new FormGroup({
+      'busTitle':new FormControl(null,[Validators.required]),
+      'busDescription':new FormControl(null,[Validators.required]),
+      'busCategory':new FormControl(null,[Validators.required]),
+      'terms':new FormControl(null,[Validators.required]),
+     });
     this.route.params.subscribe(resp=>{
       this.id=resp.id;
       this.busService.editBus(resp.id).subscribe(details=>{
         this.editDetails=details;
-        this.editBusform = new FormGroup({
-          'busTitle':new FormControl(this.editDetails.busTitle,[Validators.required]),
-          'busDescription':new FormControl(this.editDetails.busDescription,[Validators.required]),
-          'busCategory':new FormControl(this.editDetails.busCategory,[Validators.required]),
-          'terms':new FormControl(this.editDetails.terms,[Validators.required]),
+        this.editBusform.patchValue({
+          'busTitle':this.editDetails.busTitle,
+          'busDescription':this.editDetails.busDescription,
+          'busCategory':this.editDetails.busCategory,
+          'terms':this.editDetails.terms
          })
       })
     });

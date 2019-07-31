@@ -15,15 +15,19 @@ export class SearchComponent implements OnInit {
   constructor(private searchService: SearchService,private timetableService:TimetableService) {}
 
   ngOnInit() {
+    this.searchform = new FormGroup({
+      'date':new FormControl(null,[Validators.required]),
+      'source':new FormControl(null,[Validators.required]),
+      'destination':new FormControl(null,[Validators.required]),
+      'busCategory':new FormControl("AC-Sleeper",[Validators.required]),
+     })
     this.searchService.getSourceDestination().subscribe(details=>{
       this.ttSources=details['source'];
       this.ttDestinations=details["destination"];
-      this.searchform = new FormGroup({
-        'date':new FormControl(null,[Validators.required]),
-        'source':new FormControl(this.ttSources[0].source,[Validators.required]),
-        'destination':new FormControl(this.ttDestinations[0].destination,[Validators.required]),
-        'busCategory':new FormControl("AC-Sleeper",[Validators.required]),
-       })
+      this.searchform.patchValue({
+        source : this.ttSources[0].source,
+        destination : this.ttDestinations[0].destination
+      })
     }); 
   }
 

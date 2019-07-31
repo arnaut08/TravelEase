@@ -67,7 +67,7 @@ router.post("/signup",async (req,res)=>{
     const exists = await checkUser(email);
     if(exists.length!=0){
         res.send({"msg":"Email already exists"})
-        return
+        return;
     }
     const hashedpw = await hashpw(password);
     const authId = await createAuth(user,hashedpw);

@@ -16,17 +16,25 @@ export class EditmerchantComponent implements OnInit{
   constructor(private merchantService: MerchantService, private route: ActivatedRoute) { }
   
   ngOnInit() {
+    this.editMerchantform = new FormGroup({
+      'firstName':new FormControl(null,[Validators.required]),
+      'lastName':new FormControl(null,[Validators.required]),
+      'email':new FormControl(null,[Validators.required,Validators.email]),
+      'phone':new FormControl(null,[Validators.required]),
+      'dob':new FormControl(null,[Validators.required]),
+      'companyName':new FormControl(null,[Validators.required]),
+    });
     this.route.params.subscribe(resp=>{
       this.id=resp.id;
       this.merchantService.editMerchant(resp.id).subscribe(details=>{
         this.editDetails=details;
-        this.editMerchantform = new FormGroup({
-          'firstName':new FormControl(this.editDetails.firstName,[Validators.required]),
-          'lastName':new FormControl(this.editDetails.lastName,[Validators.required]),
-          'email':new FormControl(this.editDetails.email,[Validators.required,Validators.email]),
-          'phone':new FormControl(this.editDetails.phone,[Validators.required]),
-          'dob':new FormControl(this.editDetails.DOB.substring(0,10),[Validators.required]),
-          'companyName':new FormControl(this.editDetails.companyName,[Validators.required]),
+        this.editMerchantform.patchValue({
+          'firstName':this.editDetails.firstName,
+          'lastName':this.editDetails.lastName,
+          'email':this.editDetails.email,
+          'phone':this.editDetails.phone,
+          'dob':this.editDetails.DOB.substring(0,10),
+          'companyName':this.editDetails.companyName
         });
       })
     });       

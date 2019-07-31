@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class ViewbusesComponent implements OnInit{
   buses;
   pages=[];
+  searchVal;
   searchForm : FormGroup;
   subscription : Subscription;
   constructor(private busService:BusService, private router: Router, private route: ActivatedRoute) { }
@@ -22,22 +23,43 @@ export class ViewbusesComponent implements OnInit{
       'search':new FormControl(null)
      })
     console.log(this.searchForm.value)
-    this.getData();
     this.getCount();
+    this.getData();
   }
 
-  getData(searchVal=""){
-    this.subscription = this.route.params.subscribe(params=>{
-      this.busService.getbuses(params["page"],searchVal).subscribe(buses=>{
-        this.buses=buses;
-      })
-    });
+  getData(){
+    this.route.queryParams.subscribe(params=>{
+      if(!params["page"]){
+        console.log("called")
+        this.busService.getbuses(1,"").subscribe(buses=>{
+          this.buses=buses;
+        })
+      }else if(!params["search"]){
+        this.busService.getbuses(params["page"],"").subscribe(buses=>{
+          this.buses=buses;
+        })
+      } else {
+        this.busService.getbuses(params["page"],params["search"]).subscribe(buses=>{
+          this.buses=buses;
+        })
+      }
+    })
   }
 
-  getCount(searchVal=""){
-    this.busService.getBusesCount(searchVal).subscribe(res=>{
-      this.getPages(res["count"])
-    });        
+  getCount(){
+    this.route.queryParams.subscribe(params=>{
+      if(!params["search"]){
+        this.busService.getBusesCount("").subscribe(res=>{
+          this.getPages(res["count"])
+        });
+      } else {
+        this.busService.getBusesCount(params["search"]).subscribe(res=>{
+          this.getPages(res["count"])
+        });
+      }
+      
+    })
+            
   }
 
   getPages(count){
@@ -48,8 +70,10 @@ export class ViewbusesComponent implements OnInit{
   }
 
   search(){
-    this.getData(this.searchForm.value.search);
-    this.getCount(this.searchForm.value.search);
+    this.searchVal = this.searchForm.value.search ;
+    this.router.navigate(['/bus/view'],{ queryParams: { page:1 , search : this.searchForm.value.search} })
+    // this.getData(this.searchForm.value.search);
+    // this.getCount(this.searchForm.value.search);
   }
 
 

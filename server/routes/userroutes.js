@@ -8,7 +8,9 @@ const getSource=()=>{
     return new Promise((resolve, reject) => {
         sql= `SELECT DISTINCT(source) FROM timetable;` 
             con.query(sql,(err,result)=>{
-                if(err) throw err;
+                if(err) {
+                    reject(err);
+                };
                 resolve(result);
             })
         });
@@ -18,7 +20,9 @@ const getDestination=()=>{
     return new Promise((resolve, reject) => {
         sql= `SELECT DISTINCT(destination) FROM timetable;` 
             con.query(sql,(err,result)=>{
-                if(err) throw err;
+                if(err) {
+                    reject(err);
+                };
                 resolve(result);
             })
         });
@@ -28,7 +32,9 @@ const payment=(receipt,transId,amount)=>{
     return new Promise((resolve, reject) => {
         sql= `INSERT INTO payment(transactionId, amount, receipt) VALUES ('${transId}',${amount},'${receipt}');` 
         con.query(sql,(err,result)=>{
-            if(err) throw err;
+            if(err){
+                reject(err)
+            };
             resolve(result.insertId);
         })
     });
@@ -39,7 +45,9 @@ const getId=(email)=>{
     return new Promise((resolve, reject) => {
         sql= `SELECT userId FROM users LEFT JOIN auth ON user_auth=authId WHERE email='${email}';` 
         con.query(sql,(err,result)=>{
-            if(err) throw err;
+            if(err) {
+                reject(err);
+            }
             resolve(result[0].userId);
         })
     });
@@ -51,10 +59,10 @@ const getBookingId=(bookedBy,bookedBus,payment)=>{
         const sql = `INSERT INTO bookings(bookedBy, bookedBus, payment) VALUES (${bookedBy},${bookedBus},${payment})`
         con.query(sql,(err,result)=>{
             if(err){
-                console.log(err)
+                reject(err)
+            } else {
+                resolve(result.insertId);
             }
-            resolve(result.insertId);
-
         })
     })
 }
@@ -64,8 +72,9 @@ router.get("/timetable",auth,(req,res)=>{
     con.query("SELECT * FROM timetable LEFT JOIN buses ON bus=busID;",(err,result)=>{
         if(err){
             res.send({"msg":"Error Occurred"})
+        } else {
+            res.send(result)
         }
-        res.send(result)
     })
 })
 
@@ -86,8 +95,9 @@ router.get("/search",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"Error Occurred"})
+        } else {
+            res.send(result)            
         }
-        res.send(result)
     })
 })  
 
@@ -97,14 +107,15 @@ router.get("/timetable/:id/price",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+        } else {
+            res.send(result[0])
         }
-        res.send(result[0])
     })
 })
 
 // Payment Gateway
 router.post("/payment",auth,(req,res)=>{
-    const {token,email,amount}= req.body
+    const { token, email, amount }= req.body
     const stripe = require('stripe')('sk_test_7Fe2sqAjXQobbklio599hFIX00BlKUNp3O');
     
     stripe.customers.create({
@@ -133,16 +144,15 @@ router.post("/payment",auth,(req,res)=>{
 // To insert booking records
 router.post("/book",auth,async (req,res)=>{
     const {values, bookedBus, count, email, payment} = req.body;
-    
     const bookedBy = await getId(email);
-    
     const booking = await getBookingId(bookedBy,bookedBus,payment);
-    
     con.query(`INSERT INTO ratings(journey) VALUES (${booking})`,(err)=>{
         if(err){
             res.send({"msg":"error occurred"})
+            return ;
         }
     })
+
     // To insert travellers details
     for(let traveller of values){
         console.log(booking);
@@ -150,6 +160,7 @@ router.post("/book",auth,async (req,res)=>{
         con.query(sql,(err,result)=>{
             if(err){
                 res.send({"msg":"error"})
+                return;
             }
         })
     }
@@ -158,10 +169,10 @@ router.post("/book",auth,async (req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+        } else {
+            res.send({"msg":"success"})
         }
-    })
-    
-    res.send({"msg":"success"})
+    })    
 })
 
 
@@ -176,8 +187,9 @@ router.get("/tickets/upcoming",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+        } else {
+            res.send(result)
         }
-        res.send(result)
     })
 })
 
@@ -194,8 +206,9 @@ router.get("/tickets/past",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+        } else {
+            res.send(result)
         }
-        res.send(result)
     })  
 })
 
@@ -208,8 +221,9 @@ router.post("/rating",auth,(req,res)=>{
     con.query(sql,(err,result)=>{
         if(err){
             res.send({"msg":"error occurred"})
+        } else {
+            res.send({"msg":"success"})
         }
-        res.send({"msg":"success"})
     })
 })
 
